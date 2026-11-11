@@ -1,11 +1,13 @@
-# 🌿 WildArc
+# 🌿 WildArc Arbor
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
-A comprehensive, open-source platform for regenerative permaculture farms. WildArc is designed to digitize ecological intelligence, starting with trees (Arbor module) and expanding to companion plants (Flora), soil/water (Terra), and fungi (Myco).
+Tree management for regenerative permaculture farms: map every tree, record its health and the work it needs, and see the whole farm at a glance. Arbor is the first module of WildArc, an open-source platform for digitizing a farm's ecological intelligence.
 
-📖 **[Read the Full Long-Term Vision & Module Roadmap here](./docs/vision/00_OVERVIEW.md)**
+This repository holds the Arbor app: the API, the web client and the database migrations. It was split out of [yozo06/tms](https://github.com/yozo06/tms) in November 2026 and keeps that repository's history.
+
+📖 **[The long-term WildArc vision and module roadmap live in the tms repository](https://github.com/yozo06/tms/blob/main/docs/vision/00_OVERVIEW.md)**
 
 ![Dashboard Preview](./frontend/public/icons/icon-512.png) 
 

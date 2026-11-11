@@ -8,10 +8,10 @@ These documents serve as the "North Star" for frontend contributors, ensuring th
 | Module | Status | Description |
 |--------|--------|-------------|
 | [Arbor V2](./arbor-v2/README.md) | Specs Added | Enhancements to the core tree management tools (Yield, GIS, Timeline) |
-| [Flora](./flora/README.md) | Specs Added | Companion planting, guild designer, and plant database |
-| [Terra](./terra/README.md) | Specs Added | Soil dashboard, water topography, weather integrations |
-| [Synapse](./synapse/README.md) | Specs Added | Intelligence layer, mind maps, cross-project analytics |
 | [Core Settings](./core/README.md) | Specs Added | Project switching, onboarding, dark mode, notification center |
+
+The specifications for the other WildArc modules (Flora, Terra, Synapse) stay in the
+[tms repository](https://github.com/yozo06/tms/tree/main/docs/designs).
 
 ## Design Principles
 
