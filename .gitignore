@@ -35,8 +35,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # Bloom — browser automation & generated content
-.playwright-profile/       # Google login session — NEVER commit (contains auth cookies)
-content/bloom/generated/   # AI-generated output images — artifacts, not source
+# (gitignore has no inline comments: a "# ..." after a pattern becomes part of it)
+# Google login session — NEVER commit (contains auth cookies)
+.playwright-profile/
+# AI-generated output images — artifacts, not source
+content/bloom/generated/
 
 # Stray generated HTML files (not part of any module)
 coorg-forest.html
