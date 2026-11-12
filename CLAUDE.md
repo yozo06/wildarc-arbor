@@ -23,8 +23,9 @@ formula.
 
 ## Commands
 
-Use **Node 20**, the version CI pins. Node 26 breaks some frontend tests. Node 20 is past its end of life;
-moving to 24 is on the housekeeping list in `docs/STATUS.md`.
+Use **Node 26**, the current long-term version and the one CI uses (`.nvmrc` says so). Node 24 also passes.
+From Node 25 on, Node has its own `localStorage`, which hides the browser one the frontend tests need, so
+`frontend/vite.config.ts` switches Node's off for tests. Keep that line.
 
 Backend, from the repository root:
 

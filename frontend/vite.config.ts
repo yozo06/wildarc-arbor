@@ -45,5 +45,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     css: true,
+    // Node 25 and later define their own localStorage global, which hides jsdom's and is undefined
+    // unless --localstorage-file is given. The app only ever runs in a browser, so tests turn Node's off.
+    poolOptions: { forks: { execArgv: ['--no-experimental-webstorage'] } },
   }
 })

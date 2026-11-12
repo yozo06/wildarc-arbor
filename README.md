@@ -30,7 +30,7 @@ This repository holds the Arbor app: the API, the web client and the database mi
 
 ## Local Development Initialization
 
-1. **Prerequisites**: Ensure you have Node.js 20 installed, the version CI uses.
+1. **Prerequisites**: Node.js 26, the current long-term version and the one CI uses (`nvm use` reads `.nvmrc`). Node 24 also works.
 2. **Install Dependencies**:
    ```bash
    npm install              # Installs backend dependencies

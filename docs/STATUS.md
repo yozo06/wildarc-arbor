@@ -43,7 +43,7 @@ re-plan.
 
 ## Branches
 
-Every figure below was measured with Node 20 after a clean `npm ci`, the same steps CI runs.
+Every figure below was measured with Node 26 after a clean `npm ci`, the same steps CI runs.
 
 | Branch | What it holds | Checks | Waits on |
 |---|---|---|---|
@@ -93,11 +93,10 @@ Settings for this repository once `main` is on GitHub (defaults; the owner can c
 - Turn on private vulnerability reporting, so security problems arrive privately, not as public issues.
 - Wiki off, issues on.
 
-## Housekeeping
+## Node
 
-- Node 20 reached its end of life in April 2026. CI and local runs here still use it, because some
-  frontend tests fail under Node 26. Measure the suite under Node 24, the current long-term version, then
-  move CI to it. The library's CI already runs 20 and 24.
+CI and `.nvmrc` use Node 26, the current long-term version, since 2026-11-12. Node 24 also passes. Node 20
+reached its end of life in April 2026 and is no longer used here. The library's CI runs 24 and 26.
 
 ## Open with the owner
 
