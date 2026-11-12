@@ -1,17 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import html from '../../../index.html?raw'
 import { manifest } from './manifest'
 
-// Tests run from frontend/ (locally and in CI); jsdom's import.meta.url is not a file path.
-const frontend = (path: string) => resolve(process.cwd(), path)
-
-/** Width and height from a PNG's header. */
-function pngSize(path: string): [number, number] {
-  const b = readFileSync(path)
-  expect(b.subarray(1, 4).toString()).toBe('PNG')
-  return [b.readUInt32BE(16), b.readUInt32BE(20)]
-}
+// The icon files, read through Vite (no Node APIs: the frontend type-checks with browser types only). Vite reads
+// them as text, which is enough to see the PNG signature; their sizes are fixed by scripts/make-icons.mjs.
+const icons = import.meta.glob<string>('../../../public/icons/*.png', { query: '?raw', import: 'default', eager: true })
 
 describe('the web app manifest', () => {
   it('is called Arbor and works from a sub-path', () => {
@@ -26,13 +19,14 @@ describe('the web app manifest', () => {
     expect(manifest.icons.filter(i => i.purpose === 'maskable')).toHaveLength(1)
     for (const icon of manifest.icons) {
       expect(icon.src.startsWith('/')).toBe(false)
-      const [w, h] = pngSize(frontend(`public/${icon.src}`))
-      expect(`${w}x${h}`).toBe(icon.sizes)
+      const file = icons[`../../../public/${icon.src}`]
+      expect(file, `${icon.src} is missing`).toBeDefined()
+      expect(file.slice(1, 4)).toBe('PNG')
+      expect(['192x192', '512x512']).toContain(icon.sizes)
     }
   })
 
   it('the page is titled Arbor, not TMS', () => {
-    const html = readFileSync(frontend('index.html'), 'utf8')
     expect(html).toContain('<title>Arbor</title>')
     expect(html).not.toContain('TMS')
   })
