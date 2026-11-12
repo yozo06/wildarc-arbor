@@ -140,6 +140,15 @@ export function getStore(): Promise<LocalStore> {
   return current
 }
 
+/** Small facts about the farm on this phone (last saved, sample loaded, farm name), kept in the meta store. */
+export async function readMeta<T>(key: string): Promise<T | undefined> {
+  return (await (await getStore()).get<{ key: string; value: T }>('meta', key))?.value
+}
+
+export async function writeMeta(key: string, value: unknown): Promise<void> {
+  await (await getStore()).put('meta', { key, value })
+}
+
 /** Tests only: use this store from now on, or forget the current one so the next call opens afresh. */
 export function resetStoreForTests(store?: LocalStore): void {
   current = store ? Promise.resolve(store) : null
