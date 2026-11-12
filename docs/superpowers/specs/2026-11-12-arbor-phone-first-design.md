@@ -1,7 +1,8 @@
 # Phone-first Arbor: design
 
 **Date:** 2026-11-12
-**Status:** draft, waiting for the owner's approval. Nothing here is built yet.
+**Status:** approved by the owner on 2026-11-13, with every default in section 10 accepted. Being built on
+branch `feature/arbor-phone-first`; the plan is in `docs/superpowers/plans/2026-11-13-arbor-phone-first.md`.
 **Relation to the roadmap:** this is the re-plan that `docs/STATUS.md` asks for. It changes the order of
 the [roadmap](2026-11-12-arbor-roadmap-design.md)'s Stages 0 to 2 (section 7 below) and leaves the rest of
 the roadmap standing.
