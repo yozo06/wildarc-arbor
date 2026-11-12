@@ -95,6 +95,13 @@ describe('updateTree', () => {
     expect(log).toMatchObject({ previous_status: 'pending', new_status: 'completed', notes: 'Done today' })
   })
 
+  it('accepts every status the tree screens offer', async () => {
+    await createTree({ tree_code: 'T-1' })
+    for (const status of ['in_progress', 'on_hold', 'completed', 'pending']) {
+      expect((await updateTree('T-1', { status })).status).toBe(status)
+    }
+  })
+
   it('refuses an update with no known fields', async () => {
     await createTree({ tree_code: 'T-1' })
     expect(await errorOf(updateTree('T-1', { colour: 'green' }))).toBe('No valid fields to update')

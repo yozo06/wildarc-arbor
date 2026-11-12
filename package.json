@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:frontend": "cd frontend && npm install && npm run build:server",
     "build:backend": "tsc",
     "build": "npm run build:frontend && npm run build:backend",
     "start": "node node_modules/ts-node/dist/bin.js --transpile-only src/server.ts",

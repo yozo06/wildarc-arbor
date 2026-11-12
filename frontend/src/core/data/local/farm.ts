@@ -8,7 +8,7 @@ type Row = Record<string, any>
 
 const ACTIONS = ['pending', 'cut', 'trim', 'keep', 'monitor', 'treat', 'replant']
 const PRIORITIES = ['low', 'medium', 'high', 'urgent']
-const STATUSES = ['pending', 'in_progress', 'completed']
+const STATUSES = ['pending', 'in_progress', 'completed', 'on_hold']
 const NUMERIC = [
   'species_id', 'zone_id', 'assigned_to', 'health_score', 'approx_age_yrs', 'height_m', 'trunk_diameter_cm',
   'coord_x', 'coord_y',

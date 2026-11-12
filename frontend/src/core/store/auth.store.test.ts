@@ -1,5 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useAuthStore } from './auth.store';
+
+// These tests describe the server version's sign-in; the phone version is covered in core/data/mode.test.tsx.
+vi.mock('../data/mode', () => ({ DATA_MODE: 'server', isLocal: () => false }))
 
 describe('Auth Store', () => {
     beforeEach(() => {

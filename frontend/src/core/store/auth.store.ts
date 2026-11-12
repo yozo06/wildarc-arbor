@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { isLocal } from '../data/mode'
 
 interface User { id: number; name: string; email: string; role: string }
 interface AuthState {
@@ -14,9 +15,16 @@ interface AuthState {
   isVolunteer: () => boolean
 }
 
+// On the phone version there is no sign-in: whoever holds the phone is user 1, the farm's owner. Signing out
+// returns to that person, so the route guards never send the phone version to a sign-in page.
+const PHONE_OWNER: User = { id: 1, name: 'You', email: '', role: 'owner' }
+const SIGNED_OUT = isLocal()
+  ? { user: PHONE_OWNER, token: 'local', refreshToken: null }
+  : { user: null, token: null, refreshToken: null }
+
 export const useAuthStore = create<AuthState>()(
   persist((set, get) => ({
-    user: null, token: null, refreshToken: null, activeProjectId: null,
+    ...SIGNED_OUT, activeProjectId: null,
     setAuth: (user, token, refreshToken) => {
       localStorage.setItem('tms_token', token)
       localStorage.setItem('tms_refresh', refreshToken)
@@ -27,10 +35,10 @@ export const useAuthStore = create<AuthState>()(
     logout: () => {
       localStorage.removeItem('tms_token')
       localStorage.removeItem('tms_refresh')
-      set({ user: null, token: null, refreshToken: null, activeProjectId: null })
+      set({ ...SIGNED_OUT, activeProjectId: null })
     },
     isOwner: () => get().user?.role === 'owner',
     isEmployee: () => get().user?.role === 'employee',
     isVolunteer: () => get().user?.role === 'volunteer',
-  }), { name: 'tms_auth' })
+  }), { name: isLocal() ? 'arbor_phone_auth' : 'tms_auth' })
 )
