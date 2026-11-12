@@ -61,7 +61,7 @@ const toHome = <Navigate to="/home" replace />
 export default function App() {
   const local = isLocal()
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/tree/:code" element={<PublicTree />} />
         <Route path="/login" element={local ? toHome : <Login />} />
