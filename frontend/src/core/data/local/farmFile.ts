@@ -116,18 +116,24 @@ export async function readFarmFile(input: Blob | ArrayBuffer | Uint8Array) {
 
   return {
     summary: { trees: data.trees.length, photos: photos.length, savedAt: data.savedAt },
-    apply: async () => {
-      const store = await getStore()
-      const replacement: Partial<Record<StoreName, unknown[]>> = { photos }
-      for (const s of RECORDS) replacement[s] = data[s]
-      replacement.meta = [
-        { key: 'owner', ...data.owner },
-        { key: 'farmName', value: data.farm.name },
-        { key: 'lastSavedAt', value: data.savedAt },
-        { key: 'startedAt', value: data.savedAt },
-        { key: 'sample', value: false },
-      ]
-      await store.replaceAll(replacement)
-    },
+    apply: () => replaceFarm(data, photos, { sample: false, lastSavedAt: data.savedAt, startedAt: data.savedAt }),
   }
+}
+
+/** Puts a checked farm on the phone in place of whatever is there, in one transaction. */
+export async function replaceFarm(
+  data: FarmData,
+  photos: Row[],
+  flags: { sample: boolean; lastSavedAt?: string; startedAt: string },
+): Promise<void> {
+  const replacement: Partial<Record<StoreName, unknown[]>> = { photos }
+  for (const s of RECORDS) replacement[s] = data[s]
+  replacement.meta = [
+    { key: 'owner', ...data.owner },
+    { key: 'farmName', value: data.farm.name },
+    { key: 'startedAt', value: flags.startedAt },
+    { key: 'sample', value: flags.sample },
+    ...(flags.lastSavedAt ? [{ key: 'lastSavedAt', value: flags.lastSavedAt }] : []),
+  ]
+  await (await getStore()).replaceAll(replacement)
 }
