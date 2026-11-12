@@ -83,10 +83,12 @@ CI runs exactly these checks (without `npm run dev`) on every pull request and p
 - **Legacy duplicates.** `frontend/src/pages/`, `frontend/src/components/`, `frontend/src/store/` and
   `frontend/src/api/` are older copies that no route uses. Edit the versions under `core/`, `modules/` and
   `settings/`. Stage 0 deletes the old folders.
-- **The database cannot be rebuilt from this repository.** The base tables were made by hand in Supabase
-  Studio. The code reads `map_tree_view` and `ecosystem_roles`, which no migration creates, and migrations
-  004, 006 and 007 are absent. Stage 0 starts with a dump of the live project. Until that lands, do not
-  assume a column or a view exists because a migration file mentions it.
+- **The server database is a reconstruction.** The live tables were made by hand in Supabase Studio and never
+  written down. `supabase/migrations/20261113000000_baseline.sql` rebuilds them from what the API reads and
+  writes; `docs/migrations/` holds the older, incomplete files. If the live project is ever dumped, compare
+  and keep the dump. Change the schema with a new migration file, never by editing the baseline, and regenerate
+  the seed with `node scripts/make-seed.mjs`. `tests/backend/supabase-baseline.test.ts` loads both into an
+  in-memory Postgres.
 - **The backend talks to Supabase with the service key.** Row-level rules in the database do not protect
   anything by themselves. Every route has to check who is asking, and for which farm.
 - **Supabase returns at most 1000 rows per request.** A list read without paging goes short silently. Ask

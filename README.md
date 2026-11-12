@@ -55,9 +55,35 @@ npx tsc --noEmit
 ## Server version
 
 The same screens can also run against an Express API and a Supabase database, with sign-in and roles: that is
-how Arbor started, and how one farm still uses it. In `frontend/`, `npm run dev:server` and
-`npm run build:server` build it; the API lives in `src/`. The database schema is being rebuilt into this
-repository; [docs/STATUS.md](docs/STATUS.md) says where that stands.
+how Arbor started, and how one farm still uses it. You only need it to work on the API or the database.
+
+> **Run it on your own computer, or for people you trust.** Its sign-in rules are not ready for a public
+> address yet: anyone can sign up, and a signed-in person can see other people's contact details. Fixing that
+> is the next piece of server work ([docs/STATUS.md](docs/STATUS.md)).
+
+1. **A database.** The whole schema is `supabase/migrations/20261113000000_baseline.sql`, and
+   `supabase/seed.sql` fills it with the same made-up sample farm. Either paste both, in that order, into the
+   SQL editor of a free Supabase project, or run Supabase on your computer (needs Docker):
+   `npx supabase init` (keep the existing files), `npx supabase start`, then `npx supabase db reset`.
+2. **Settings.** Copy `.env.example` to `.env` and fill in the database address and service key. The seed's
+   sign-in, for a database on your own computer only, is `owner@example.com` / `arbor-local-only`.
+3. **Photos** go to a Google Drive folder through a Google service account (also in `.env`). Without it,
+   everything works except uploading photos.
+4. **Run it**, in two terminals:
+
+   ```bash
+   npm ci
+   npm run dev
+   ```
+
+   ```bash
+   cd frontend
+   npm run dev:server
+   ```
+
+The schema and seed are checked by `tests/backend/supabase-baseline.test.ts`, which loads them into an
+in-memory Postgres. The Supabase command-line route has not been run by the maintainers yet; tell us if it
+trips.
 
 ## How it is built
 
