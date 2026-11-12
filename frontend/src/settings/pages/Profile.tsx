@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { changePassword } from '../../core/api/auth'
 import { updateUser } from '../api/users'
 import { isLocal } from '../../core/data/mode'
+import FarmFileCard from '../components/FarmFileCard'
 import { useAuthStore } from '../../core/store/auth.store'
 import toast from 'react-hot-toast'
 import { LogOut, Lock, Edit2, Check } from 'lucide-react'
@@ -48,6 +49,7 @@ export default function Profile() {
         <p className="text-sm text-gray-400 mb-2">{user?.email}</p>
         <span className={`text-xs px-3 py-1 rounded-full capitalize ${ROLE_COLOR[user?.role || 'employee']}`}>{user?.role}</span>
       </div>
+      {isLocal() && <FarmFileCard />}
       <div className="space-y-3">
         <button onClick={() => setShowEdit(f => !f)} className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform">
           <Edit2 size={18} className="text-gray-400" /><span className="font-medium text-gray-700">Edit Profile</span>

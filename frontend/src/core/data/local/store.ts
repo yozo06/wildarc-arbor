@@ -1,4 +1,5 @@
 import { openDB, type IDBPDatabase } from 'idb'
+import { requestPersistence } from '../../phone/persist'
 
 // A small key-value store over IndexedDB, with an in-memory stand-in for browsers that block storage.
 // Trees are keyed by tree_code, meta records by key, everything else by a numeric id.
@@ -79,7 +80,10 @@ function createIndexedDbStore(db: IDBPDatabase): LocalStore {
     kind: 'indexeddb',
     async all<T>(s: StoreName) { return (await db.getAll(s)) as T[] },
     async get<T>(s: StoreName, key: Key) { return (await db.get(s, key)) as T | undefined },
-    async put<T>(s: StoreName, value: T) { await db.put(s, value) },
+    async put<T>(s: StoreName, value: T) {
+      await db.put(s, value)
+      void requestPersistence()
+    },
     async remove(s: StoreName, key: Key) { await db.delete(s, key) },
     async nextId(s: StoreName) {
       const tx = db.transaction([s, 'meta'], 'readwrite')
@@ -107,6 +111,7 @@ function createIndexedDbStore(db: IDBPDatabase): LocalStore {
         try { tx.abort() } catch { /* already finished */ }
         throw err
       }
+      void requestPersistence()
     },
   }
 }

@@ -68,8 +68,17 @@ export function validateFarmData(json: unknown): FarmData {
   }
 }
 
-/** Builds the zip of everything on the phone and remembers when the farm was last saved. */
-export async function exportFarm(now = new Date()): Promise<{ blob: Blob; bytes: Uint8Array; filename: string }> {
+/** YYYY-MM-DD in the person's own time zone, for file names they will recognise. */
+function localDate(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+/**
+ * Builds the zip of everything on the phone. It does not count as saved until the file has left the phone, so
+ * the caller records that with markSaved once the download or share has gone through.
+ */
+export async function exportFarm(now = new Date()): Promise<{ blob: Blob; bytes: Uint8Array; filename: string; savedAt: string }> {
   const store = await getStore()
   const savedAt = now.toISOString()
   const data: Row = { format: FARM_FORMAT, version: FARM_VERSION, savedAt }
@@ -86,12 +95,16 @@ export async function exportFarm(now = new Date()): Promise<{ blob: Blob; bytes:
   files['farm.json'] = [strToU8(JSON.stringify(data)), { level: 6 }]
 
   const bytes = zipSync(files)
-  await writeMeta('lastSavedAt', savedAt)
   return {
     blob: new Blob([bytes], { type: 'application/zip' }),
     bytes,
-    filename: `arbor-farm-${savedAt.slice(0, 10)}.zip`,
+    filename: `arbor-farm-${localDate(now)}.zip`,
+    savedAt,
   }
+}
+
+export async function markSaved(savedAt: string): Promise<void> {
+  await writeMeta('lastSavedAt', savedAt)
 }
 
 /**

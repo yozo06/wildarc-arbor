@@ -4,7 +4,7 @@ import { createMemoryStore, getStore, readMeta, resetStoreForTests } from './sto
 import { createSpecies, createTree, createZone } from './farm'
 import { addActivity, addHealth } from './logs'
 import { updateUser } from './owner'
-import { exportFarm, FARM_FORMAT, FARM_VERSION, readFarmFile } from './farmFile'
+import { exportFarm, FARM_FORMAT, FARM_VERSION, markSaved, readFarmFile } from './farmFile'
 
 const errorOf = async (p: Promise<unknown>) => {
   try { await p } catch (e: any) { return e.response?.data?.error as string }
@@ -36,11 +36,20 @@ async function seedFarm() {
 beforeEach(() => resetStoreForTests(createMemoryStore()))
 
 describe('exportFarm', () => {
-  it('names the file by date and records the save time', async () => {
+  it('names the file by the local date, not the UTC one', async () => {
+    const justAfterMidnight = new Date(2026, 10, 13, 0, 30)
+    expect((await exportFarm(justAfterMidnight)).filename).toBe('arbor-farm-2026-11-13.zip')
+  })
+
+  it('names the file by date and leaves the save time to markSaved', async () => {
     await seedFarm()
     const out = await exportFarm(new Date('2026-11-12T15:30:00.000Z'))
     expect(out.filename).toBe('arbor-farm-2026-11-12.zip')
+    expect(out.savedAt).toBe('2026-11-12T15:30:00.000Z')
     expect(out.blob.type).toBe('application/zip')
+    // Building the zip is not saving it: the person may still cancel the share sheet.
+    expect(await readMeta('lastSavedAt')).toBeUndefined()
+    await markSaved(out.savedAt)
     expect(await readMeta('lastSavedAt')).toBe('2026-11-12T15:30:00.000Z')
   })
 
