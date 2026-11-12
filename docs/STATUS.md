@@ -19,7 +19,9 @@ This comes before the roadmap's Stage 0. The aim for the next version of Arbor:
 The approved roadmap starts from the opposite place: one hosted server and one shared database, with
 sign-in and roles (Stages 0 to 2, decisions D7 and D8). So the first piece of work in this repository is a
 re-plan, not code. Design the phone-only version with the owner, then update the roadmap and this page in
-the same pull request. That re-plan has to answer:
+the same pull request. The re-plan is drafted in the
+[phone-first design](superpowers/specs/2026-11-12-arbor-phone-first-design.md), waiting for the owner's
+approval. It has to answer:
 
 1. **The server that is live today, and the farm data already in it.** Keep it running, move its data into
    the phone app, or retire it. While it runs, its loose access rules (roadmap section 2.3) still need

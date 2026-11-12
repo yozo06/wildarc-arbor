@@ -3,7 +3,8 @@
 **Date:** 2026-11-12
 **Status:** approved by Yogesh on 2026-11-12, with every decision in section 7 at its default. Later the
 same day the owner set a new direction: a phone-only app first, a database option later. `docs/STATUS.md`
-records it; Stages 0 to 2 are to be re-planned around it before work starts. Questions Q1 to Q4 are still
+records it, and the [phone-first design](2026-11-12-arbor-phone-first-design.md) re-plans Stages 0 to 2
+around it, including how Arbor could make money. Questions Q1 to Q4 are still
 open. Nothing in section 3 is built yet; `docs/STATUS.md` says what has moved since.
 **Scope:** the arbor app only (repository `wildarc-arbor`). Flora, terra, synapse and bloom get their own
 plans afterwards, outside this repository.
