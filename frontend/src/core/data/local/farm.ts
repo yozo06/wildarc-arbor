@@ -115,7 +115,7 @@ export async function getTrees(params: Row = {}) {
   return { trees, total: rows.length, page }
 }
 
-export async function getTree(code: string) {
+export async function getTree(code: string): Promise<Row> {
   const store = await getStore()
   const tree = await findTree(store, code)
   const { species, zones } = await lookups(store)
