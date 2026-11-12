@@ -3,6 +3,8 @@
 @tailwind utilities;
 @layer base {
   html { -webkit-tap-highlight-color: transparent; }
-  body { @apply bg-gray-50 text-gray-900; overscroll-behavior: none; }
+  body { background-color: #F7F5EE; color: #1C2B1F; overscroll-behavior: none; }
 }
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
