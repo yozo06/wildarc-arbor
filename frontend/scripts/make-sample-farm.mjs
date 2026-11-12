@@ -59,7 +59,10 @@ function pointIn(poly) {
 
 const ACTIONS = ['keep', 'keep', 'keep', 'monitor', 'monitor', 'trim', 'trim', 'cut', 'treat', 'replant', 'pending']
 const STATUSES = ['pending', 'pending', 'pending', 'in_progress', 'completed', 'completed', 'on_hold']
-const NAMED = { 'NORTH-001': 'Old mango by the gate', 'POND-002': 'Leaning coconut', 'EAST-004': 'Big neem' }
+// A few trees with a name of their own; the species always matches the name.
+const NAMED = {
+  'NORTH-001': ['Old mango by the gate', 'Mango'], 'POND-002': ['Leaning coconut', 'Coconut'], 'EAST-004': ['Big neem', 'Neem'],
+}
 
 const trees = []
 for (const [code, count, kinds] of plan) {
@@ -69,9 +72,11 @@ for (const [code, count, kinds] of plan) {
     const [coord_x, coord_y] = pointIn(zone.boundary_coords)
     const status = pick(STATUSES)
     const created = day(between(0, 20))
+    const [ownName, ownSpecies] = NAMED[tree_code] ?? [null, null]
+    const kind = pick(kinds)
     trees.push({
-      id: trees.length + 1, uid: `sample-tree-${trees.length + 1}`, tree_code, species_id: sp(pick(kinds)),
-      zone_id: zone.id, custom_common_name: NAMED[tree_code] ?? null, health_score: between(3, 10),
+      id: trees.length + 1, uid: `sample-tree-${trees.length + 1}`, tree_code, species_id: sp(ownSpecies ?? kind),
+      zone_id: zone.id, custom_common_name: ownName, health_score: between(3, 10),
       action: pick(ACTIONS), status, priority: pick(['low', 'medium', 'medium', 'medium', 'high']),
       coord_x, coord_y, approx_age_yrs: between(1, 25), height_m: between(1, 12, 0.5),
       trunk_diameter_cm: between(5, 60), action_notes: null, public_notes: null,

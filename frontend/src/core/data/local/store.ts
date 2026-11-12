@@ -12,6 +12,7 @@ const KEY_PATH: Record<StoreName, string> = {
   trees: 'tree_code', meta: 'key',
   species: 'id', zones: 'id', health: 'id', activity: 'id', photos: 'id',
 }
+export type TreeStoreName = 'health' | 'activity' | 'photos'
 const BY_TREE: StoreName[] = ['health', 'activity', 'photos']
 const DB_NAME = 'arbor'
 const DB_VERSION = 1
@@ -22,6 +23,8 @@ export interface LocalStore {
   get<T>(s: StoreName, key: Key): Promise<T | undefined>
   put<T>(s: StoreName, value: T): Promise<void>
   remove(s: StoreName, key: Key): Promise<void>
+  /** One tree's health entries, work log or photos, read through the by_tree index. */
+  byTree<T>(s: TreeStoreName, code: string): Promise<T[]>
   nextId(s: StoreName): Promise<number>
   replaceAll(data: Partial<Record<StoreName, unknown[]>>): Promise<void>
 }
@@ -60,6 +63,10 @@ export function createMemoryStore(): LocalStore {
     },
     async put<T>(s: StoreName, value: T) { map(s).set(keyOf(s, value), structuredClone(value)) },
     async remove(s: StoreName, key: Key) { map(s).delete(key) },
+    async byTree<T>(s: TreeStoreName, code: string) {
+      return [...map(s).values()].filter(v => (v as { tree_code?: string }).tree_code === code)
+        .map(v => structuredClone(v)) as T[]
+    },
     async nextId(s: StoreName) {
       const counter = (map('meta').get(seqKey(s)) as { value: number } | undefined)?.value
       const next = nextFrom([...map(s).keys()], counter)
@@ -85,6 +92,7 @@ function createIndexedDbStore(db: IDBPDatabase): LocalStore {
       void requestPersistence()
     },
     async remove(s: StoreName, key: Key) { await db.delete(s, key) },
+    async byTree<T>(s: TreeStoreName, code: string) { return (await db.getAllFromIndex(s, 'by_tree', code)) as T[] },
     async nextId(s: StoreName) {
       const tx = db.transaction([s, 'meta'], 'readwrite')
       const keys = (await tx.objectStore(s).getAllKeys()) as Key[]

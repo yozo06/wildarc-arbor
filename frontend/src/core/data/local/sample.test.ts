@@ -36,6 +36,13 @@ describe('the sample farm file', () => {
     for (const t of data.trees) expect(t.tree_code.startsWith(`${zoneCode.get(t.zone_id)}-`)).toBe(true)
   })
 
+  it('gives a named tree the species its name says', () => {
+    const speciesName = new Map(data.species.map(s => [s.id, s.common_name.toLowerCase()]))
+    const named = data.trees.filter(t => t.custom_common_name)
+    expect(named.length).toBeGreaterThan(0)
+    for (const t of named) expect(t.custom_common_name.toLowerCase()).toContain(speciesName.get(t.species_id))
+  })
+
   it('puts every tree inside its zone', () => {
     const outline = new Map(data.zones.map(z => [z.id, z.boundary_coords as Pt[]]))
     for (const t of data.trees) expect(inside([t.coord_x, t.coord_y], outline.get(t.zone_id)!)).toBe(true)

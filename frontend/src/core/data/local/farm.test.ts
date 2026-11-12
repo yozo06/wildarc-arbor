@@ -37,6 +37,17 @@ describe('createTree', () => {
     expect(await errorOf(createTree({ tree_code: 'T-1', action: 'burn' }))).toBe('Unknown action: burn')
   })
 
+  it('takes the tree back out when its log entry cannot be written', async () => {
+    const base = createMemoryStore()
+    resetStoreForTests({ ...base, put: async (s, v) => {
+      if (s === 'activity') throw new DOMException('The quota has been exceeded.', 'QuotaExceededError')
+      return base.put(s, v)
+    } })
+    expect(await errorOf(createTree({ tree_code: 'T-1' })))
+      .toBe('Phone storage is full. Save your farm to a file, then remove some photos.')
+    expect(await base.all('trees')).toEqual([])
+  })
+
   it('logs tree_created', async () => {
     await createTree({ tree_code: 'T-1' })
     const activity = await (await getStore()).all<any>('activity')

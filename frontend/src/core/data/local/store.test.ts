@@ -51,6 +51,13 @@ describe.each(makers)('LocalStore (%s)', (kind, make) => {
     expect(await store.nextId('species')).toBe(8)
   })
 
+  it('byTree returns only that tree\'s records', async () => {
+    await store.put('health', { id: 1, tree_code: 'T-1' })
+    await store.put('health', { id: 2, tree_code: 'T-2' })
+    await store.put('health', { id: 3, tree_code: 'T-1' })
+    expect((await store.byTree<{ id: number }>('health', 'T-1')).map(r => r.id).sort()).toEqual([1, 3])
+  })
+
   it('replaceAll swaps the named stores and leaves the others', async () => {
     await store.put<Tree>('trees', { tree_code: 'OLD-001' })
     await store.put<Species>('species', { id: 1, common_name: 'Mango' })

@@ -1,5 +1,5 @@
 import { getStore, newUid, type LocalStore } from './store'
-import { fail } from './errors'
+import { fail, rethrowStorageFull } from './errors'
 
 // Trees, species, zones, the map and the dashboard, answered from the phone. Every function takes the same
 // arguments as its server twin in modules/arbor/api and returns the same shape the server sends.
@@ -145,8 +145,18 @@ export async function createTree(data: Row) {
     status: 'pending', ...input, tree_code: code, id: await store.nextId('trees'), uid: newUid(),
     added_by: 1, created_at: stamp, updated_at: stamp, completed_at: null,
   }
-  await store.put('trees', tree)
-  await logActivity(store, { tree_code: code, action_taken: 'tree_created', new_status: 'pending' })
+  try {
+    await store.put('trees', tree)
+  } catch (err) {
+    rethrowStorageFull(err)
+  }
+  try {
+    await logActivity(store, { tree_code: code, action_taken: 'tree_created', new_status: 'pending' })
+  } catch (err) {
+    // A tree without its first log entry would be half-saved: take it back out.
+    await store.remove('trees', code)
+    rethrowStorageFull(err)
+  }
   return tree
 }
 
@@ -174,7 +184,7 @@ export async function deleteTree(code: string) {
   const tree = await findTree(store, code)
   await store.remove('trees', tree.tree_code)
   for (const s of ['health', 'activity', 'photos'] as const) {
-    for (const row of await store.all<Row>(s)) if (row.tree_code === tree.tree_code) await store.remove(s, row.id)
+    for (const row of await store.byTree<Row>(s, tree.tree_code)) await store.remove(s, row.id)
   }
   return { success: true }
 }

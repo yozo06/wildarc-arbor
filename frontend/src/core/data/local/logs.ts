@@ -18,7 +18,7 @@ async function findTree(store: LocalStore, code: string): Promise<Row> {
 }
 
 async function forTree(store: LocalStore, s: 'health' | 'activity', code: string): Promise<Row[]> {
-  return (await store.all<Row>(s)).filter(r => r.tree_code === upper(code))
+  return store.byTree<Row>(s, upper(code))
 }
 
 export async function getHealth(code: string) {

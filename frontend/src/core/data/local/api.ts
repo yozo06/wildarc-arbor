@@ -2,6 +2,7 @@ import toast from 'react-hot-toast'
 import * as farm from './farm'
 import * as logs from './logs'
 import * as owner from './owner'
+import * as photos from './photos'
 import { fail } from './errors'
 import { notifyFarmChanged } from '../../phone/farmEvents'
 
@@ -45,10 +46,8 @@ export const addHealth = withToast(logs.addHealth, true)
 export const getContributors = withToast(logs.getContributors)
 export const addContributor = withToast(logs.addContributor)
 
-// Photos arrive in a later step of this branch; until then the tree page shows none.
-export const getPhotos = withToast(async (_code: string) => [] as any[])
-export const uploadPhoto = withToast(async (_code: string, _file: File, _type: string, _caption?: string) =>
-  fail(400, 'Photos come in a later step'))
+export const getPhotos = withToast(photos.getPhotos)
+export const uploadPhoto = withToast(photos.uploadPhoto, true)
 
 export const getUsers = withToast(owner.getUsers)
 export const createUser = withToast(owner.createUser)
