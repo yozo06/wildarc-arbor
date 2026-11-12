@@ -55,6 +55,7 @@ Every figure below was measured with Node 26 after a clean `npm ci`, the same st
 | `fix/ci-schema-test-and-cookie-ignore` | Repairs the failing schema test. Fixes the ignore rule for the browser-profile folder, which does not work on `main` because of a comment on the same line. | Backend: 9 of 9. | Nothing. **Merge first**, so everything else lands on a green `main`. |
 | `feature/arbor-land-map` | The zoomable Land Map, the screen edits carried over from May, and the map's design note. | Frontend: type check clean, 39 of 39 tests, build succeeds. One React `act(...)` warning from the tree list tests, not a failure. Backend not touched. | A review, and a run against real farm data (it has only seen sample data). |
 | `draft/biodiversity-endpoint` | `GET /api/dashboard/biodiversity`: richness, Shannon, Simpson and evenness for the standing trees, computed by `@wildarc/diversity`. Stacked on the CI repair branch. | Backend: 15 of 15. | See below. Not ready to publish or merge. |
+| `feature/arbor-phone-first` | The phone version, built on top of the Land Map: data on the phone, the farm file, the sample farm, welcome and install screens, photos, the Arbor name and icons, the GitHub Pages build, README screenshots. Built by its plan's steps; the commits named "Step N boundary" in the plan ledger become one pull request each. | Frontend: type check clean, 144 tests, both builds succeed. Checked in Chrome at phone size, including real IndexedDB, real photo shrinking and the service worker under `/wildarc-arbor/`. | Publishing, then checks on a real Android phone and a real iPhone (the iPhone share sheet for saving, Safari's storage rules). |
 
 ### What the biodiversity branch waits on
 
@@ -69,10 +70,16 @@ The re-plan may drop this branch instead, if the phone computes the figures itse
 
 ## Order of work
 
-1. Merge the CI repair.
-2. Re-plan around the direction above, with the owner, and update the roadmap.
-3. Follow the re-planned stages. Under the old plan the next steps were Stage 0 (the database dump, Q1, and
-   tighter access, D8), then the Land Map on real data, then the biodiversity endpoint.
+1. Merge the CI repair, then the Land Map, then the phone version's pull requests in order.
+2. Turn on GitHub Pages and check the phone version on real phones.
+3. Step 6 of the phone-first design: the server version's access work (D8), with its own plan. Server bugs
+   found while building the phone version, all still in the server version:
+   - The tree update rules drop `status`, `custom_common_name` and `log_notes`, so changing a tree's status
+     from the tree page fails with "No valid fields to update".
+   - The health rules keep only `health_score`, `observed_issues` and `notes`; the form's leaf colour, bark,
+     pests, disease, height and notes are thrown away.
+   - `src/core/middleware/validate.ts` reads `.errors`, which zod 4 no longer has, so any request that fails a
+     check gets no response.
 
 ## Publishing to GitHub
 

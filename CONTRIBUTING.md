@@ -24,21 +24,27 @@ Have an idea for a new feature?
 ### 💻 Contributing Code
 
 #### 1. Development Setup
+
+Use Node 26 (`nvm use` reads `.nvmrc`). Most work happens in the phone version, which needs no server, no
+database and no accounts:
+
 ```bash
-# Clone your fork
-git clone https://github.com/your-username/wildarc.git
-cd wildarc
-
-# Install dependencies
-npm install
-cd frontend && npm install && cd ..
-
-# Setup environments (ask maintainer for dev Supabase keys if needed)
-cp .env.example .env
-
-# Run locally
+git clone https://github.com/your-username/wildarc-arbor.git
+cd wildarc-arbor/frontend
+npm ci
 npm run dev
 ```
+
+Open the address Vite prints, then "Look around the sample farm" to get data to work with. Before a pull
+request, run in `frontend/`:
+
+```bash
+npx tsc --noEmit
+npx vitest run
+```
+
+Only for changes to the API or the database: the server version runs the same screens against the Express
+API and Supabase. See "Server version" in the README.
 
 #### 2. Branch Naming
 Create branches off the `main` branch.
