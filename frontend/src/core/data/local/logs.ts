@@ -1,5 +1,5 @@
 import { getStore, newUid, type LocalStore } from './store'
-import { fail } from './errors'
+import { fail, rethrowStorageFull } from './errors'
 import { logActivity, ownerName } from './farm'
 
 // A tree's health observations and work log on the phone, in the shapes the server returns.
@@ -39,8 +39,18 @@ export async function addHealth(code: string, data: Row) {
     height_m: data.height_m === '' || data.height_m == null ? null : Number(data.height_m),
   }
   for (const f of HEALTH_TEXT) row[f] = data[f] || null
-  await store.put('health', row)
-  await store.put('trees', { ...tree, health_score: score, updated_at: row.observed_at })
+  try {
+    await store.put('health', row)
+  } catch (err) {
+    rethrowStorageFull(err)
+  }
+  try {
+    await store.put('trees', { ...tree, health_score: score, updated_at: row.observed_at })
+  } catch (err) {
+    // The entry without the tree's new score would be half-saved: take it back out.
+    await store.remove('health', row.id)
+    rethrowStorageFull(err)
+  }
   return row
 }
 

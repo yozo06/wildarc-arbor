@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { TreePine, Share, PlusSquare, Smartphone } from 'lucide-react'
 import { canPromptInstall, isInstalled, isIos, onInstallAvailable, promptInstall } from '../phone/install'
 import { clearFarm, isSampleLoaded, loadSampleFarm } from '../data/local/sample'
 import { writeMeta } from '../data/local/store'
 import { notifyFarmChanged } from '../phone/farmEvents'
+import { useFarmStatus } from '../phone/useFarmStatus'
 
 // The first screen of the phone version. On iPhone it asks people to add Arbor to the Home Screen before they
 // enter anything, because a farm started in a Safari tab stays in Safari and can be deleted after a week.
@@ -14,6 +15,8 @@ export default function Welcome() {
   const [inSafariAnyway, setInSafariAnyway] = useState(false)
   const [canInstall, setCanInstall] = useState(canPromptInstall())
   const [busy, setBusy] = useState(false)
+
+  const farm = useFarmStatus()
 
   useEffect(() => onInstallAvailable(() => setCanInstall(true)), [])
 
@@ -35,6 +38,10 @@ export default function Welcome() {
   const lookAround = () => go(loadSampleFarm)
 
   const showStart = !needsHomeScreen || inSafariAnyway
+
+  // Reached with a real farm already on the phone (an old bookmark, a typed address): go home, so the sample can
+  // never replace that farm.
+  if (farm?.started && farm.treeCount > 0 && !farm.sample) return <Navigate to="/home" replace />
 
   return (
     <div className="min-h-screen bg-brand-offwhite max-w-md mx-auto px-6 pt-16 pb-10 flex flex-col">

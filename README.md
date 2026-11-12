@@ -65,8 +65,7 @@ how Arbor started, and how one farm still uses it. You only need it to work on t
    `supabase/seed.sql` fills it with the same made-up sample farm. Either paste both, in that order, into the
    SQL editor of a free Supabase project, or run Supabase on your computer (needs Docker):
    `npx supabase init` (keep the existing files), `npx supabase start`, then `npx supabase db reset`.
-2. **Settings.** Copy `.env.example` to `.env` and fill in the database address and service key. The seed's
-   sign-in, for a database on your own computer only, is `owner@example.com` / `arbor-local-only`.
+2. **Settings.** Copy `.env.example` to `.env` and fill in the database address and service key.
 3. **Photos** go to a Google Drive folder through a Google service account (also in `.env`). Without it,
    everything works except uploading photos.
 4. **Run it**, in two terminals:
@@ -79,6 +78,13 @@ how Arbor started, and how one farm still uses it. You only need it to work on t
    ```bash
    cd frontend
    npm run dev:server
+   ```
+
+5. **Make yourself the owner.** The seed creates no accounts, so there is no known password to try. Sign up in
+   the app, then run this in the database's SQL editor with your email:
+
+   ```sql
+   update public.users set role = 'owner' where email = 'you@example.com';
    ```
 
 The schema and seed are checked by `tests/backend/supabase-baseline.test.ts`, which loads them into an

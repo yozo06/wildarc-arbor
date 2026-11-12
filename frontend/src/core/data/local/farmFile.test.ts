@@ -105,6 +105,12 @@ describe('readFarmFile', () => {
     await oldTreeStillThere()
   })
 
+  it('new trees get fresh ids after a file is opened', async () => {
+    const opened = await readFarmFile(jsonZip(farmJson({ trees: [{ id: 1, tree_code: 'A-1' }, { id: 7, tree_code: 'A-2' }] })))
+    await opened.apply()
+    expect((await createTree({ tree_code: 'A-3' })).id).toBe(8)
+  })
+
   it('apply replaces everything in one go', async () => {
     const opened = await readFarmFile(jsonZip(farmJson()))
     await oldTreeStillThere()

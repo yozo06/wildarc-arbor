@@ -257,6 +257,8 @@
 **Interfaces:**
 - Tables: `users` (`id bigint identity, name, email unique, password_hash, role, phone, bio, profile_photo, is_active, created_at`), `land_zones`, `species`, `ecosystem_roles`, `trees` (all columns Appendix A and the routes use), `tree_activity_log`, `tree_health_observations`, `tree_photos`, `tree_contributors`, `projects`, `project_members` (from migration 002); views `zone_summary` (as migration 008) and `map_tree_view` (Appendix A map shape). Columns come from the route files and `docs/migrations/*.sql`; where they disagree, the routes win.
 - Seed owner: `owner@example.com`, password `arbor-local-only`, written in `.env.example` and README as local-only.
+  *Changed in the final review: the seed creates no account at all (a known owner password would work against any
+  copy put online); people sign up and are made owner with one SQL line, as the README says.*
 
 - [ ] **Step 1: Write the failing test:** baseline and seed load into PGlite without error; `select * from zone_summary` returns 5 rows; `select * from map_tree_view` returns 40 rows with `display_name` set; the owner's `password_hash` verifies with `bcryptjs.compare('arbor-local-only', hash)`.
 - [ ] **Step 2: Run.** Expected: FAIL.

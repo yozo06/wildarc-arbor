@@ -10,10 +10,12 @@ vi.mock('../data/local/sample', () => ({
   loadSampleFarm: vi.fn(async () => {}), clearFarm: vi.fn(async () => {}), isSampleLoaded: vi.fn(async () => false),
 }))
 vi.mock('../data/local/store', () => ({ writeMeta: vi.fn(async () => {}) }))
+vi.mock('../phone/useFarmStatus', () => ({ useFarmStatus: vi.fn(() => null) }))
 
 import { isIos } from '../phone/install'
 import { clearFarm, isSampleLoaded, loadSampleFarm } from '../data/local/sample'
 import { writeMeta } from '../data/local/store'
+import { useFarmStatus } from '../phone/useFarmStatus'
 import Welcome from './Welcome'
 
 const renderWelcome = () => render(
@@ -25,7 +27,12 @@ const renderWelcome = () => render(
   </MemoryRouter>,
 )
 
-beforeEach(() => { vi.mocked(isIos).mockReturnValue(false); vi.mocked(isSampleLoaded).mockResolvedValue(false) })
+beforeEach(() => {
+  vi.clearAllMocks()
+  vi.mocked(isIos).mockReturnValue(false)
+  vi.mocked(isSampleLoaded).mockResolvedValue(false)
+  vi.mocked(useFarmStatus).mockReturnValue(null)
+})
 
 describe('Welcome', () => {
   it('on Android offers the two ways in, with no Home Screen card', () => {
@@ -63,5 +70,12 @@ describe('Welcome', () => {
     renderWelcome()
     fireEvent.click(screen.getByRole('button', { name: 'Start my farm' }))
     await waitFor(() => expect(writeMeta).toHaveBeenCalledWith('startedAt', expect.any(String)))
+  })
+
+  it('sends a phone that already has a real farm home, so the sample can never replace it', async () => {
+    vi.mocked(useFarmStatus).mockReturnValue({ started: true, sample: false, treeCount: 12, storage: 'indexeddb', version: 1 })
+    renderWelcome()
+    expect(await screen.findByText('Home page')).toBeInTheDocument()
+    expect(loadSampleFarm).not.toHaveBeenCalled()
   })
 })

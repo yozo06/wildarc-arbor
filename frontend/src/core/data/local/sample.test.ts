@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import sample from './sample-farm.json'
 import { createMemoryStore, getStore, readMeta, resetStoreForTests, STORE_NAMES } from './store'
 import { validateFarmData } from './farmFile'
-import { getMapTrees, getZones } from './farm'
+import { createTree, getMapTrees, getZones } from './farm'
 import { updateUser } from './owner'
 import { clearFarm, isSampleLoaded, loadSampleFarm } from './sample'
 
@@ -79,5 +79,13 @@ describe('loading and clearing', () => {
     for (const s of STORE_NAMES.filter(s => s !== 'meta')) expect(await store.all(s)).toEqual([])
     expect(await isSampleLoaded()).toBe(false)
     expect((await store.get<any>('meta', 'owner')).name).toBe('Asha')
+  })
+
+  it('new trees get fresh ids after the sample is loaded', async () => {
+    await loadSampleFarm()
+    const t = await createTree({ tree_code: 'NEW-001' })
+    const ids = (await (await getStore()).all<any>('trees')).map(r => r.id)
+    expect(t.id).toBe(41)
+    expect(new Set(ids).size).toBe(ids.length)
   })
 })

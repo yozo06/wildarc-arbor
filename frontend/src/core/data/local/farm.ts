@@ -169,12 +169,22 @@ export async function updateTree(code: string, data: Row) {
   const next: Row = { ...tree, ...changes, updated_at: now() }
   const statusChanged = changes.status != null && changes.status !== tree.status
   if (statusChanged && changes.status === 'completed') next.completed_at = now()
-  await store.put('trees', next)
+  try {
+    await store.put('trees', next)
+  } catch (err) {
+    rethrowStorageFull(err)
+  }
   if (statusChanged) {
-    await logActivity(store, {
-      tree_code: tree.tree_code, action_taken: 'status_changed', previous_status: tree.status,
-      new_status: changes.status, notes: data?.log_notes ?? null,
-    })
+    try {
+      await logActivity(store, {
+        tree_code: tree.tree_code, action_taken: 'status_changed', previous_status: tree.status,
+        new_status: changes.status, notes: data?.log_notes ?? null,
+      })
+    } catch (err) {
+      // A status change without its log entry would be half-saved: put the tree back as it was.
+      await store.put('trees', tree)
+      rethrowStorageFull(err)
+    }
   }
   return next
 }

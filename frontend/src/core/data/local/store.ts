@@ -69,7 +69,8 @@ export function createMemoryStore(): LocalStore {
     },
     async nextId(s: StoreName) {
       const counter = (map('meta').get(seqKey(s)) as { value: number } | undefined)?.value
-      const next = nextFrom([...map(s).keys()], counter)
+      const ids = KEY_PATH[s] === 'id' ? [...map(s).keys()] : [...map(s).values()].map(v => (v as { id?: Key }).id ?? 0)
+      const next = nextFrom(ids, counter)
       map('meta').set(seqKey(s), { key: seqKey(s), value: next })
       return next
     },
@@ -95,9 +96,12 @@ function createIndexedDbStore(db: IDBPDatabase): LocalStore {
     async byTree<T>(s: TreeStoreName, code: string) { return (await db.getAllFromIndex(s, 'by_tree', code)) as T[] },
     async nextId(s: StoreName) {
       const tx = db.transaction([s, 'meta'], 'readwrite')
-      const keys = (await tx.objectStore(s).getAllKeys()) as Key[]
+      // Trees are keyed by their code, but still carry a numeric id the screens use; count from those.
+      const ids = KEY_PATH[s] === 'id'
+        ? (await tx.objectStore(s).getAllKeys()) as Key[]
+        : ((await tx.objectStore(s).getAll()) as Array<{ id?: Key }>).map(r => r.id ?? 0)
       const counter = ((await tx.objectStore('meta').get(seqKey(s))) as { value: number } | undefined)?.value
-      const next = nextFrom(keys, counter)
+      const next = nextFrom(ids, counter)
       await tx.objectStore('meta').put({ key: seqKey(s), value: next })
       await tx.done
       return next

@@ -41,11 +41,16 @@ describe('the Supabase baseline and seed', () => {
     expect(trees.every(t => t.display_name && t.zone_code && typeof t.coord_x === 'number')).toBe(true)
   })
 
-  it('the local owner can sign in with the documented password', async () => {
-    const [owner] = await rows<{ email: string; role: string; password_hash: string; is_active: boolean }>(
-      "select * from public.users where email = 'owner@example.com'")
-    expect(owner).toMatchObject({ role: 'owner', is_active: true })
-    expect(await bcrypt.compare('arbor-local-only', owner.password_hash)).toBe(true)
+  it('ships no sign-in: there is no known password to try against a database put online', async () => {
+    expect(await rows('select * from public.users')).toEqual([])
+  })
+
+  it('someone who signed up can be made the owner, as the README explains', async () => {
+    const hash = await bcrypt.hash('chosen-by-them', 4)
+    await db.query("insert into public.users (name, email, password_hash, role) values ('Asha', 'asha@example.com', $1, 'volunteer')", [hash])
+    await db.query("update public.users set role = 'owner' where email = 'asha@example.com'")
+    const [asha] = await rows<{ id: number; role: string }>("select id, role from public.users where email = 'asha@example.com'")
+    expect(asha).toEqual({ id: 1, role: 'owner' })
   })
 
   it('new rows get fresh ids after the seed', async () => {

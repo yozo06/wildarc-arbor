@@ -3,7 +3,7 @@ import * as farm from './farm'
 import * as logs from './logs'
 import * as owner from './owner'
 import * as photos from './photos'
-import { fail } from './errors'
+import { fail, isQuotaError, LocalDataError, STORAGE_FULL } from './errors'
 import { notifyFarmChanged } from '../../phone/farmEvents'
 
 // Everything the screens call, answered on the phone. Like the server's axios client, a failure shows a
@@ -15,7 +15,9 @@ function withToast<A extends unknown[], R>(fn: (...args: A) => Promise<R>, chang
       const result = await fn(...args)
       if (changesFarm) notifyFarmChanged()
       return result
-    } catch (err: any) {
+    } catch (caught: any) {
+      // A full phone gets the same plain message whichever write hit the limit.
+      const err = isQuotaError(caught) ? new LocalDataError(507, STORAGE_FULL) : caught
       toast.error(err?.response?.data?.error ?? 'Something went wrong')
       throw err
     }
