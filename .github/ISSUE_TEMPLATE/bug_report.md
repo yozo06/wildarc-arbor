@@ -1,17 +1,16 @@
 ---
 name: Bug Report
-about: Create a report to help us improve WildArc
+about: Create a report to help us improve Arbor
 title: "[BUG] "
 labels: ["type:bug"]
 assignees: ""
 ---
 
-**Module related to the bug**
-- [ ] Core (Auth, Projects, System)
-- [ ] Arbor (Trees, Map, Photos)
-- [ ] Flora (Plants, Guilds)
-- [ ] Terra (Soil, Water)
-- [ ] Synapse (Analytics)
+**Part of Arbor**
+- [ ] Trees and the tree list
+- [ ] Land Map
+- [ ] Dashboard
+- [ ] Sign-in and users
 - [ ] Not sure
 
 **Describe the bug**
@@ -31,8 +30,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
- - OS: [e.g. iOS, Windows 11]
+ - OS: [e.g. iOS, Android, Windows 11]
  - Browser: [e.g. chrome, safari, firefox]
+ - Installed to the home screen: [yes, no]
  - Role: [Owner, Employee, Volunteer]
 
 **Additional context**

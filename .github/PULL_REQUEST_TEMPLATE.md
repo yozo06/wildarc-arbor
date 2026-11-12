@@ -10,16 +10,16 @@ Fixes # (issue)
 - [ ] `type:enhancement` (improving existing functionality)
 - [ ] `type:chore` (tooling, CI, dependencies)
 
-## Module Affected
-- [ ] **Core**
-- [ ] **Arbor**
-- [ ] **Flora**
-- [ ] **Terra**
-- [ ] **Synapse**
+## Area affected
+- [ ] **API** (`src/`)
+- [ ] **Phone app** (`frontend/`)
+- [ ] **Docs**
+- [ ] **CI and tooling**
 
 ## Checklist
 - [ ] I have read the [CONTRIBUTING.md](../CONTRIBUTING.md) document.
-- [ ] My code follows the style guidelines of this project (no ESLint errors).
+- [ ] `npx tsc --noEmit` passes in each part I changed (the repository root and `frontend/`).
+- [ ] I have updated `docs/STATUS.md` if this merges a branch or settles a decision.
 - [ ] I have performed a self-review of my own code.
 - [ ] I have added/updated tests that prove my fix is effective or that my feature works.
 - [ ] New and existing unit tests pass locally with my changes.

@@ -61,7 +61,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## Code Style
 - **TypeScript Strict Mode** is enabled. Do not use `any` unless absolutely necessary.
-- **Prettier & ESLint** are used for formatting. (Run `npm run lint` before committing).
+- There is no lint script yet. Before committing, run `npx tsc --noEmit` and the tests in each part you changed (the repository root and `frontend/`).
 - Follow the modular structure conventions (see [Project Structure](https://github.com/yozo06/tms/blob/main/docs/vision/06_PROJECT_STRUCTURE.md) in the WildArc vision docs).
 
 Thank you for helping us build the future of open-source agriculture! 🌱
