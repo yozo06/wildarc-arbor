@@ -7,6 +7,8 @@ them, and a map of where they stand. AGPL-3.0. It was split out of the `yozo06/t
 ## Read first
 
 1. `docs/STATUS.md`: what each branch holds, what was measured, what it waits on. Short, and kept current.
+   Its "Direction" section, set by the owner on 2026-11-12, comes before the roadmap: the next version runs
+   on a phone with no account and no server. Re-plan with the owner before starting Stage 0.
 2. `docs/superpowers/specs/2026-11-12-arbor-roadmap-design.md`: the approved roadmap. Six stages, the
    decisions D1 to D8, and the questions still open with the owner.
 3. `docs/designs/`: screen specifications.
@@ -21,7 +23,8 @@ formula.
 
 ## Commands
 
-Use **Node 20**, the version CI pins. Newer Node versions break some frontend tests.
+Use **Node 20**, the version CI pins. Node 26 breaks some frontend tests. Node 20 is past its end of life;
+moving to 24 is on the housekeeping list in `docs/STATUS.md`.
 
 Backend, from the repository root:
 
@@ -69,9 +72,7 @@ CI runs exactly these checks (without `npm run dev`) on every pull request and p
   anything by themselves. Every route has to check who is asking, and for which farm.
 - **Supabase returns at most 1000 rows per request.** A list read without paging goes short silently. Ask
   for the exact count and compare, or page.
-- **There is no `npm run lint` script**, although `CONTRIBUTING.md` mentions one. Type checking and tests
-  are the gate for now.
-- **The README says Node 18 or later.** Use 20.
+- **There is no `npm run lint` script.** Type checking and tests are the gate for now.
 
 ## How we work here
 
