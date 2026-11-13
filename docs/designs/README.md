@@ -9,6 +9,7 @@ These documents serve as the "North Star" for frontend contributors, ensuring th
 |--------|--------|-------------|
 | [Arbor V2](./arbor-v2/README.md) | Specs Added | Enhancements to the core tree management tools (Yield, GIS, Timeline) |
 | [Core Settings](./core/README.md) | Specs Added | Project switching, onboarding, dark mode, notification center |
+| [Land Map](./land-map/README.md) | Built, sample data only | Zoomable top view of the farm: trees, zones, colour by action, health, zone or species |
 
 The specifications for the other WildArc modules (Flora, Terra, Synapse) stay in the
 [tms repository](https://github.com/yozo06/tms/tree/main/docs/designs).

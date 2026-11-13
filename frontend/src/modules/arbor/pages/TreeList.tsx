@@ -45,7 +45,7 @@ export default function TreeList() {
         <h1 className="text-2xl font-bold text-gray-800">Trees</h1>
         <div className="flex gap-2">
           <button onClick={() => setShowFilters(f => !f)} aria-label="Toggle filters"
-            className={`w-11 h-11 rounded-xl flex items-center justify-center border transition-colors relative ${showFilters ? 'bg-forest-600 border-forest-600 text-white' : 'border-gray-200 text-gray-500'}`}>
+            className={`w-11 h-11 rounded-xl flex items-center justify-center border transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 ${showFilters ? 'bg-forest-600 border-forest-600 text-white' : 'border-gray-200 text-gray-500'}`}>
             <Filter size={16} />
             {activeFilterCount > 0 && !showFilters && (
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 text-white rounded-full text-[9px] flex items-center justify-center font-bold">
@@ -53,7 +53,7 @@ export default function TreeList() {
               </span>
             )}
           </button>
-          {isOwner() && <button onClick={() => nav('/trees/new')} aria-label="Add new tree" className="w-11 h-11 bg-forest-600 rounded-xl flex items-center justify-center text-white"><Plus size={18} /></button>}
+          {isOwner() && <button onClick={() => nav('/trees/new')} aria-label="Add new tree" className="w-11 h-11 bg-forest-600 rounded-xl flex items-center justify-center text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2"><Plus size={18} /></button>}
         </div>
       </div>
       <div className="relative mb-3">
@@ -73,18 +73,18 @@ export default function TreeList() {
           <div>
             <p className="text-xs font-medium text-gray-500 mb-2">Action</p>
             <div className="flex flex-wrap gap-1.5">
-              {ACTIONS.map(a => <button key={a} onClick={() => setAction(a)} className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors ${action === a ? 'bg-forest-600 text-white border-forest-600' : 'border-gray-200 text-gray-500'}`}>{a}</button>)}
+              {ACTIONS.map(a => <button key={a} onClick={() => setAction(a)} className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 ${action === a ? 'bg-forest-600 text-white border-forest-600' : 'border-gray-200 text-gray-500'}`}>{a}</button>)}
             </div>
           </div>
           <div>
             <p className="text-xs font-medium text-gray-500 mb-2">Status</p>
             <div className="flex flex-wrap gap-1.5">
-              {STATUSES.map(s => <button key={s} onClick={() => setStatus(s)} className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors ${status === s ? 'bg-forest-600 text-white border-forest-600' : 'border-gray-200 text-gray-500'}`}>{s.replace('_', ' ')}</button>)}
+              {STATUSES.map(s => <button key={s} onClick={() => setStatus(s)} className={`text-xs px-3 py-1 rounded-full border capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 ${status === s ? 'bg-forest-600 text-white border-forest-600' : 'border-gray-200 text-gray-500'}`}>{s.replace('_', ' ')}</button>)}
             </div>
           </div>
           {activeFilterCount > 0 && (
             <button onClick={() => { setAction('all'); setStatus('all'); setZone('all') }}
-              className="text-xs text-red-500 font-medium">Clear all filters</button>
+              className="text-xs text-red-500 font-medium rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2">Clear all filters</button>
           )}
         </div>
       )}
