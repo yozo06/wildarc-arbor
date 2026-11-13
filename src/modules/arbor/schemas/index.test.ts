@@ -16,16 +16,13 @@ describe('Zod Validation Schemas', () => {
             expect(result.success).toBe(true);
         });
 
-        it('should fail if tree_code is missing', () => {
-            const invalidTree = {
+        it('should accept a tree without tree_code (generated server-side from the zone)', () => {
+            const treeWithoutCode = {
                 species_id: 1
             };
 
-            const result = treeCreateSchema.safeParse(invalidTree);
-            expect(result.success).toBe(false);
-            if (!result.success) {
-                expect(result.error.issues[0].path).toContain('tree_code');
-            }
+            const result = treeCreateSchema.safeParse(treeWithoutCode);
+            expect(result.success).toBe(true);
         });
 
         it('should convert empty string species_id to 0 due to coerce.number', () => {
