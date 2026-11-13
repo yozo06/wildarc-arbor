@@ -20,6 +20,26 @@ saved to a file at any time.
 
 The screenshots show "Sample Food Forest", a made-up farm that ships with the app.
 
+## Who it's for
+
+Arbor is for anyone who tends trees on a piece of land and wants a living record of each one —
+something you carry into the field, not a spreadsheet you fill in afterwards.
+
+- **Food forests and agroforestry plots** — mixed, many-species plantings where every tree is
+  different and worth knowing by name.
+- **Smallholdings and market orchards** — keep each tree's age, health and the next job it needs,
+  season after season.
+- **Community gardens, parks and campus groves** — a shared record that outlives any one volunteer
+  and gets handed on intact.
+- **Restoration and reforestation projects** — log what went in where, then watch survival, growth
+  and the mix of species over the years.
+
+A few things people use it for: taking a tree inventory from scratch; doing the rounds and logging
+a health score or a bit of work done, with a photo; finding every tree that needs attention this
+week; and seeing how diverse a planting really is. One grower can run the whole thing from a single
+phone — the server version adds sign-in so field workers log from their own phones while the owner
+keeps the farm.
+
 ## Install it on your phone
 
 - **Android (Chrome):** open the link and tap **Install app** (or the ⋮ menu, then **Install app**).
