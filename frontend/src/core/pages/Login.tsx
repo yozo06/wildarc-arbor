@@ -29,7 +29,7 @@ export default function Login() {
       <div className="w-16 h-16 bg-white rounded-3xl flex items-center justify-center mb-6 shadow-xl">
         <Leaf size={32} className="text-forest-600" />
       </div>
-      <h1 className="text-3xl font-bold text-white mb-1">TMS</h1>
+      <h1 className="text-3xl font-bold text-white mb-1">Arbor</h1>
       <p className="text-forest-300 text-sm mb-10">Tree Management System</p>
       <div className="w-full bg-white rounded-3xl p-6 shadow-2xl space-y-4">
         <div>

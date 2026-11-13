@@ -1,58 +1,135 @@
-# 🌿 WildArc Arbor
+# Arbor
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
-Tree management for regenerative permaculture farms: map every tree, record its health and the work it needs, and see the whole farm at a glance. Arbor is the first module of WildArc, an open-source platform for digitizing a farm's ecological intelligence.
+Arbor keeps track of every tree on a farm or food forest: where it stands, what it is, how healthy it is and
+the work it needs. It runs on a phone, from a link, with no account. The farm stays on the phone, and can be
+saved to a file at any time.
 
-This repository holds the Arbor app: the API, the web client and the database migrations. It was split out of [yozo06/tms](https://github.com/yozo06/tms) in November 2026 and keeps that repository's history.
+**Try it:** open <https://yozo06.github.io/wildarc-arbor/> on a phone and tap **Look around the sample farm**.
 
-📖 **[The long-term WildArc vision and module roadmap live in the tms repository](https://github.com/yozo06/tms/blob/main/docs/vision/00_OVERVIEW.md)**
+<table>
+  <tr>
+    <td><img src="docs/screenshots/home.png" width="200" alt="Home: tree counts, progress and urgent trees for the sample farm"></td>
+    <td><img src="docs/screenshots/trees.png" width="200" alt="The tree list with species, health and the work each tree needs"></td>
+    <td><img src="docs/screenshots/tree.png" width="200" alt="One tree: health score, age, height and status"></td>
+    <td><img src="docs/screenshots/map.png" width="200" alt="The Land Map: every tree plotted in its zone, coloured by the work it needs"></td>
+  </tr>
+</table>
 
-![Dashboard Preview](./frontend/public/icons/icon-512.png) 
+The screenshots show "Sample Food Forest", a made-up farm that ships with the app.
 
-## Features
+## Who it's for
 
-- **Dashboard Analytics**: Real-time summary counts, progress metrics, and urgent tree highlights (rendered dynamically backend-side).
-- **Interactive Map Picker**: Visually place trees on a designated canvas to automatically populate X/Y coordinates during addition.
-- **Tree Lifecycle Tracking**: Track trees from 'pending' addition, through active actions ('cut', 'trim', 'treat', 'monitor'), to 'completed'.
-- **Health & Activity Logs**: Comprehensive timestamped logs for observations, health scores, and manual interventions per tree.
-- **Employee & Role Management**: Secure role-based access control (`owner` vs `employee`). Owners can re-assign workloads and manage the team.
-- **Progressive Web App (PWA)**: Built with offline-first capabilities utilizing Workbox caching for seamless field use on mobile devices with spotty internet.
-- **Google Drive Integration**: Automated upload of tree photos and media to a secure, organized Google Drive structure.
+Arbor is for anyone who tends trees on a piece of land and wants a living record of each one —
+something you carry into the field, not a spreadsheet you fill in afterwards.
 
-## Tech Stack
+- **Food forests and agroforestry plots** — mixed, many-species plantings where every tree is
+  different and worth knowing by name.
+- **Smallholdings and market orchards** — keep each tree's age, health and the next job it needs,
+  season after season.
+- **Community gardens, parks and campus groves** — a shared record that outlives any one volunteer
+  and gets handed on intact.
+- **Restoration and reforestation projects** — log what went in where, then watch survival, growth
+  and the mix of species over the years.
 
-- **Frontend**: React, Vite, Tailwind CSS, Zustand (state management), React Router.
-- **Backend**: Node.js, Express, TypeScript.
-- **Database & Auth**: Supabase (PostgreSQL + JWT Authentication).
-- **Hosting / Deployment**: Configured as a Unified App (the Node backend serves the static built React frontend for easy centralized deployment).
+A few things people use it for: taking a tree inventory from scratch; doing the rounds and logging
+a health score or a bit of work done, with a photo; finding every tree that needs attention this
+week; and seeing how diverse a planting really is. One grower can run the whole thing from a single
+phone — the server version adds sign-in so field workers log from their own phones while the owner
+keeps the farm.
 
-## Local Development Initialization
+## Install it on your phone
 
-1. **Prerequisites**: Node.js 26, the current long-term version and the one CI uses (`nvm use` reads `.nvmrc`). Node 24 also works.
-2. **Install Dependencies**:
+- **Android (Chrome):** open the link and tap **Install app** (or the ⋮ menu, then **Install app**).
+- **iPhone (Safari):** open the link, tap **Share**, then **Add to Home Screen**, and open Arbor from the Home
+  Screen. Do this before you add any trees: Safari and the Home Screen app keep separate data.
+
+## Your data
+
+- It stays on the phone, in the browser's storage. There is no account and nothing is sent anywhere.
+- **Save my farm** (on the Me page) writes one file, `arbor-farm-<date>.zip`, with every tree, entry and photo.
+  Keep it somewhere safe. Arbor reminds you if a week passes without a save.
+- **Open a farm file** replaces the farm on the phone with the one in the file. It is also how you move a farm
+  to a new phone.
+- Clearing the browser's data for the site deletes the farm on that phone. The file is your backup.
+
+## Run it on your computer
+
+The phone version needs nothing but Node 26 (`nvm use` reads `.nvmrc`):
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Open the address Vite prints. Tests and type checks, also in `frontend/`:
+
+```bash
+npx vitest run
+npx tsc --noEmit
+```
+
+## Server version
+
+The same screens can also run against an Express API and a Supabase database, with sign-in and roles: that is
+how Arbor started, and how one farm still uses it. You only need it to work on the API or the database.
+
+> **Run it on your own computer, or for people you trust.** Its sign-in rules are not ready for a public
+> address yet: anyone can sign up, and a signed-in person can see other people's contact details. Fixing that
+> is the next piece of server work ([docs/STATUS.md](docs/STATUS.md)).
+
+1. **A database.** The whole schema is `supabase/migrations/20261113000000_baseline.sql`, and
+   `supabase/seed.sql` fills it with the same made-up sample farm. Either paste both, in that order, into the
+   SQL editor of a free Supabase project, or run Supabase on your computer (needs Docker):
+   `npx supabase init` (keep the existing files), `npx supabase start`, then `npx supabase db reset`.
+2. **Settings.** Copy `.env.example` to `.env` and fill in the database address and service key.
+3. **Photos** go to a Google Drive folder through a Google service account (also in `.env`). Without it,
+   everything works except uploading photos.
+4. **Run it**, in two terminals:
+
    ```bash
-   npm install              # Installs backend dependencies
-   cd frontend && npm install # Installs frontend dependencies
-   cd ..
-   ```
-3. **Environment Setup**: 
-   Create a `.env` file in the root directory mirroring `.env.example`. You will need your Supabase API keys, DB URL, and Google Service Account credentials.
-4. **Run Application**:
-   ```bash
+   npm ci
    npm run dev
    ```
-   *The backend runs securely on port `3000` and the frontend runs on port `5173`. The Vite proxy ensures seamless API communication.*
 
-## Deployment 
+   ```bash
+   cd frontend
+   npm run dev:server
+   ```
 
-This application is configured for unified deployment (e.g., Render.com, Railway, Heroku).
+5. **Make yourself the owner.** The seed creates no accounts, so there is no known password to try. Sign up in
+   the app, then run this in the database's SQL editor with your email:
 
-1. Push this repository to GitHub.
-2. Connect your repository to your hosting provider as a standard **Node.js Web Service**.
-3. **Build Command**: `npm run build`
-4. **Start Command**: `npm start`
-5. Inject all necessary environment variables (from your `.env` file) into the hosting provider's dashboard.
+   ```sql
+   update public.users set role = 'owner' where email = 'you@example.com';
+   ```
 
-*The build command will automatically trigger a compilation of the React frontend into `frontend/dist` and transpile the Express backend into `dist`. The Express server will then statically serve your frontend application.*
+The schema and seed are checked by `tests/backend/supabase-baseline.test.ts`, which loads them into an
+in-memory Postgres. The Supabase command-line route has not been run by the maintainers yet; tell us if it
+trips.
+
+## How it is built
+
+- `frontend/`: React, Vite, Tailwind and Zustand, installable as a web app. The build setting `VITE_DATA_MODE`
+  picks where data lives: on the phone (the default) or on the server.
+- On the phone, data lives in IndexedDB; the farm file is a zip of `farm.json` and the photos.
+- `src/`: the Express and TypeScript API on Supabase, for the server version only.
+- Figures with a formula behind them come from separate, MIT-licensed libraries that cite their sources, such
+  as [`@wildarc/diversity`](https://github.com/yozo06/wildarc-diversity). The app records and shows; the
+  libraries calculate.
+- Every push to `main` publishes the phone version to GitHub Pages (`.github/workflows/pages.yml`).
+
+Arbor is part of WildArc, an open-source effort to help farms keep track of their land. It was split out of
+[yozo06/tms](https://github.com/yozo06/tms) in November 2026 and keeps that repository's history.
+
+## Contributing
+
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). [docs/STATUS.md](docs/STATUS.md) says where things stand, and the
+plans are in [docs/superpowers/specs/](docs/superpowers/specs/).
+
+## Licence
+
+[AGPL-3.0](LICENSE).
