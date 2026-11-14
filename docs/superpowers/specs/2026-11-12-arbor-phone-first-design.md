@@ -232,6 +232,10 @@ not have to renumber anything **(my call)**.
 Research done on 2026-11-12. Prices are from the linked pages on that date. Anything marked
 *unverified* could not be confirmed.
 
+A follow-up plan for conservation use and income exists:
+[Arbor and conservation](2026-11-14-arbor-conservation-and-income-plan.md) (2026-11-14, a proposal, not yet
+approved).
+
 ### What shapes every option
 
 - **A strong free competitor exists.** Plant-for-the-Planet's
