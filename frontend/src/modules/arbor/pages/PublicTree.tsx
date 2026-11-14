@@ -24,14 +24,14 @@ export default function PublicTreePage() {
     </div>
   )
   return (
-    <div className="min-h-screen bg-gradient-to-b from-forest-800 to-forest-600">
-      <div className="px-6 pt-12 pb-8 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-forest-800 to-forest-600 lg:pb-12">
+      <div className="px-6 pt-12 pb-8 text-white lg:max-w-3xl lg:mx-auto lg:px-8 lg:pt-16 lg:pb-10">
         <p className="text-forest-300 text-sm font-mono mb-1">{tree.code}</p>
         <h1 className="text-3xl font-bold">{tree.name}</h1>
         <p className="italic text-forest-200 mt-0.5">{tree.species}</p>
         {tree.zone && <p className="text-forest-300 text-sm mt-1">📍 {tree.zone}</p>}
       </div>
-      <div className="bg-gray-50 rounded-t-3xl min-h-screen px-4 pt-6 pb-12 space-y-4">
+      <div className="bg-gray-50 rounded-t-3xl min-h-screen px-4 pt-6 pb-12 space-y-4 lg:max-w-3xl lg:mx-auto lg:min-h-0 lg:rounded-3xl lg:px-8 lg:pt-8 lg:pb-8 lg:shadow-xl">
         {tree.funFact && (
           <div className="bg-forest-50 border border-forest-200 rounded-2xl p-4">
             <p className="text-xs font-semibold text-forest-700 uppercase mb-1">✨ Did you know?</p>

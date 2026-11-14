@@ -45,7 +45,7 @@ export default function TreeDetail() {
     } finally { setUploading(false) }
   }
 
-  if (loading) return <div className="h-screen flex items-center justify-center bg-gray-50"><Spinner label="Loading Tree Details…" /></div>
+  if (loading) return <div className="h-screen flex items-center justify-center bg-gray-50 lg:h-[60vh] lg:bg-transparent"><Spinner label="Loading Tree Details…" /></div>
   if (!tree) return <div className="p-6 text-center text-gray-400">Tree not found</div>
 
   const name = tree.custom_common_name || tree.species?.common_name || 'Unknown Tree'
@@ -53,9 +53,12 @@ export default function TreeDetail() {
   const coverImage = photos.length > 0 ? photos[0].photo_url : tree.species?.image_url || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=600'
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    // At lg: two columns. Left = cover, context strip, photos; right = one stack (instructions,
+    // progress, health, operations, timeline). The 1fr last row soaks up the taller column's
+    // extra height, so both columns stack tightly. Below lg none of this applies.
+    <div className="min-h-screen bg-gray-50 pb-24 lg:min-h-0 lg:bg-transparent lg:pb-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:gap-y-6 lg:items-start">
       {/* Immersive Cover Header */}
-      <div className="relative h-72 w-full bg-forest-900">
+      <div className="relative h-72 w-full bg-forest-900 lg:col-start-1 lg:row-start-1 lg:h-80 lg:rounded-[2rem] lg:overflow-hidden">
         <img src={coverImage} alt={name} className="w-full h-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent" />
 
@@ -84,10 +87,10 @@ export default function TreeDetail() {
         </div>
       </div>
 
-      <div className="px-5 mt-6 space-y-6">
+      <div className="px-5 mt-6 space-y-6 lg:contents">
 
         {/* Context Strip */}
-        <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-none lg:col-start-1 lg:row-start-2 lg:flex-wrap lg:items-center lg:overflow-visible lg:pb-0">
           <div className="bg-white px-3.5 py-2.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2 whitespace-nowrap">
             <StatusDot status={tree.status} />
             <span className="text-[13px] font-bold capitalize text-gray-700">{tree.status.replace('_', ' ')}</span>
@@ -100,6 +103,9 @@ export default function TreeDetail() {
           )}
           <PriorityBadge p={tree.priority} />
         </div>
+
+        {/* Right column at lg; below lg a plain block that keeps the same 1.5rem rhythm. */}
+        <div className="space-y-6 lg:!mt-0 lg:col-start-2 lg:row-start-1 lg:row-span-3">
 
         {/* Action / Instructions */}
         {tree.action_notes && (
@@ -189,9 +195,11 @@ export default function TreeDetail() {
           </div>
         )}
 
+        </div>
+
         {/* Photo Gallery */}
         {photos.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-8 lg:!mt-0 lg:mb-0 lg:col-start-1 lg:row-start-3">
             <p className="text-[11px] px-1 font-display font-bold text-gray-400 uppercase tracking-widest mb-4">Captured Media</p>
             <div className="grid grid-cols-2 gap-3">
               {photos.map(p => (

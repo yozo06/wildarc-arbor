@@ -95,7 +95,7 @@ export default function TreeEdit() {
     if (loading) return <Spinner label="Loading tree…" />
 
     return (
-        <div className="px-4 pt-12 pb-8">
+        <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl">
             <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500">
                 <ArrowLeft size={16} /> Back
             </button>
@@ -108,8 +108,10 @@ export default function TreeEdit() {
                 </button>
             </div>
 
-            <div className="space-y-4">
-                <Field label="Custom Name (overrides species name)" k="custom_common_name" form={form} onChange={set('custom_common_name')} placeholder="Leave blank to use species name" />
+            <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-5 lg:space-y-0 lg:items-end">
+                <div className="lg:col-span-2">
+                    <Field label="Custom Name (overrides species name)" k="custom_common_name" form={form} onChange={set('custom_common_name')} placeholder="Leave blank to use species name" />
+                </div>
 
                 <div>
                     <label className="text-xs font-medium text-gray-500 uppercase">Species</label>
@@ -164,14 +166,14 @@ export default function TreeEdit() {
                     <Field label="Y Coord (m)" k="coord_y" type="number" step="0.001" form={form} onChange={set('coord_y')} />
                 </div>
 
-                <div>
+                <div className="lg:col-span-2">
                     <label className="text-xs font-medium text-gray-500 uppercase">Action Notes (for employees)</label>
                     <textarea value={form.action_notes} onChange={set('action_notes')}
                         className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
                         rows={3} placeholder="Instructions for field workers…" />
                 </div>
 
-                <div>
+                <div className="lg:col-span-2">
                     <label className="text-xs font-medium text-gray-500 uppercase">Public Notes (shown on QR scan)</label>
                     <textarea value={form.public_notes} onChange={set('public_notes')}
                         className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
@@ -179,7 +181,7 @@ export default function TreeEdit() {
                 </div>
 
                 <button onClick={submit} disabled={saving}
-                    className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2">
+                    className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2 lg:col-span-2 lg:justify-self-start lg:w-auto lg:px-10 lg:py-3 lg:mt-0">
                     {saving ? 'Saving…' : '💾 Save Changes'}
                 </button>
             </div>

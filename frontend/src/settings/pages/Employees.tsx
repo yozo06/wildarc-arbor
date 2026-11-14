@@ -121,8 +121,8 @@ export default function Employees() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-white px-5 pt-14 pb-6 rounded-b-[2.5rem] shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] mb-6 border-b border-gray-100 sticky top-0 z-40">
+    <div className="min-h-screen bg-gray-50 pb-24 lg:min-h-0 lg:bg-transparent lg:pb-0">
+      <div className="bg-white px-5 pt-14 pb-6 rounded-b-[2.5rem] shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] mb-6 border-b border-gray-100 sticky top-0 z-40 lg:static lg:px-6 lg:pt-6 lg:rounded-3xl lg:border">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-display font-bold text-gray-900 tracking-tight">Team Management</h1>
@@ -136,9 +136,9 @@ export default function Employees() {
         </div>
       </div>
 
-      <div className="px-5 space-y-6">
+      <div className="px-5 space-y-6 lg:px-0">
         {showForm && (
-          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/50 animate-in slide-in-from-top-4 fade-in">
+          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/50 animate-in slide-in-from-top-4 fade-in lg:max-w-2xl">
             <div className="flex items-center gap-3 mb-5">
               <div className="bg-forest-50 p-2.5 rounded-xl border border-forest-100/50">
                 <UserPlus size={18} className="text-forest-600" />
@@ -174,9 +174,9 @@ export default function Employees() {
           </div>
         )}
 
-        <div className="space-y-4">
-          <p className="text-[11px] font-display font-bold text-gray-400 uppercase tracking-widest mb-1 px-1">Active Members ({activeUsers.length})</p>
-          {loading ? <div className="mt-8 text-center"><Spinner /></div> : activeUsers.length === 0 ? <p className="text-sm text-gray-400 p-4text-center">No active members found.</p> : activeUsers.map(renderUserCard)}
+        <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 lg:items-start">
+          <p className="text-[11px] font-display font-bold text-gray-400 uppercase tracking-widest mb-1 px-1 lg:col-span-2">Active Members ({activeUsers.length})</p>
+          {loading ? <div className="mt-8 text-center lg:col-span-2"><Spinner /></div> : activeUsers.length === 0 ? <p className="text-sm text-gray-400 p-4text-center lg:col-span-2">No active members found.</p> : activeUsers.map(renderUserCard)}
         </div>
 
         {inactiveUsers.length > 0 && (
@@ -184,7 +184,7 @@ export default function Employees() {
             <button onClick={() => setShowInactive(p => !p)} className="flex items-center gap-2 text-[11px] font-display font-bold text-gray-400 hover:text-gray-600 uppercase tracking-widest px-1 py-2 w-full text-left">
               {showInactive ? 'Hide' : 'Show'} Inactive Members ({inactiveUsers.length})
             </button>
-            {showInactive && <div className="space-y-4 mt-3">{inactiveUsers.map(renderUserCard)}</div>}
+            {showInactive && <div className="space-y-4 mt-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0 lg:items-start">{inactiveUsers.map(renderUserCard)}</div>}
           </div>
         )}
       </div>

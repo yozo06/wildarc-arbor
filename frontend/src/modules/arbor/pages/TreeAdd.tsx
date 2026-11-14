@@ -47,10 +47,10 @@ export default function TreeAdd() {
   }
 
   return (
-    <div className="px-4 pt-12 pb-8">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl">
       <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500"><ArrowLeft size={16} /> Back</button>
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Add New Tree</h1>
-      <div className="space-y-4">
+      <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-5 lg:space-y-0 lg:items-end">
         <Field label="Tree Code *" k="tree_code" form={form} onChange={set('tree_code')} placeholder="e.g. T-042" />
         <div>
           <div className="flex justify-between items-center bg-transparent">
@@ -98,7 +98,7 @@ export default function TreeAdd() {
           <Field label="Age (yrs)" k="approx_age_yrs" type="number" form={form} onChange={set('approx_age_yrs')} />
           <Field label="Height (m)" k="height_m" type="number" step="0.1" form={form} onChange={set('height_m')} />
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Location Coordinates</label>
           <MapPicker
             trees={allTrees}
@@ -110,13 +110,13 @@ export default function TreeAdd() {
             <Field label="Y Coord (m)" k="coord_y" type="number" step="0.001" form={form} onChange={set('coord_y')} />
           </div>
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase">Action Notes (for employees)</label>
           <textarea value={form.action_notes} onChange={set('action_notes')}
             className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
             rows={3} placeholder="e.g. Trim from the east side only…" />
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase">Public Notes (shown on QR scan)</label>
           <textarea value={form.public_notes} onChange={set('public_notes')}
             className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
@@ -124,7 +124,7 @@ export default function TreeAdd() {
         </div>
         <Field label="Planting Date" k="planting_date" type="date" form={form} onChange={set('planting_date')} />
         <button onClick={submit} disabled={saving}
-          className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2">
+          className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2 lg:col-span-2 lg:justify-self-start lg:w-auto lg:px-10 lg:py-3 lg:mt-0">
           {saving ? 'Saving…' : '🌱 Add Tree'}
         </button>
       </div>

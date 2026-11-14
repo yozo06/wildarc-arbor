@@ -31,7 +31,7 @@ export default function Login() {
       </div>
       <h1 className="text-3xl font-bold text-white mb-1">Arbor</h1>
       <p className="text-forest-300 text-sm mb-10">Tree Management System</p>
-      <div className="w-full bg-white rounded-3xl p-6 shadow-2xl space-y-4">
+      <div className="w-full bg-white rounded-3xl p-6 shadow-2xl space-y-4 lg:max-w-md lg:p-8">
         <div>
           <label className="text-xs font-medium text-gray-500 uppercase">Email</label>
           <input type="email" value={email} onChange={e => setEmail(e.target.value)}

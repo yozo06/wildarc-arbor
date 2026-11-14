@@ -44,17 +44,17 @@ export default function Welcome() {
   if (farm?.started && farm.treeCount > 0 && !farm.sample) return <Navigate to="/home" replace />
 
   return (
-    <div className="min-h-screen bg-brand-offwhite max-w-md mx-auto px-6 pt-16 pb-10 flex flex-col">
-      <div className="w-14 h-14 rounded-2xl bg-forest-600 text-white flex items-center justify-center mb-6">
+    <div className="min-h-screen bg-brand-offwhite max-w-md mx-auto px-6 pt-16 pb-10 flex flex-col lg:max-w-5xl lg:px-12 lg:py-16 lg:grid lg:grid-cols-2 lg:grid-rows-[1fr_auto_auto_auto_1fr] lg:gap-x-20">
+      <div className="w-14 h-14 rounded-2xl bg-forest-600 text-white flex items-center justify-center mb-6 lg:col-start-1 lg:row-start-2 lg:w-16 lg:h-16 lg:mb-8">
         <TreePine size={30} />
       </div>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Arbor</h1>
-      <p className="text-gray-600 mb-8">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2 lg:col-start-1 lg:row-start-3 lg:text-6xl lg:mb-5">Arbor</h1>
+      <p className="text-gray-600 mb-8 lg:col-start-1 lg:row-start-4 lg:text-xl lg:leading-relaxed lg:mb-0">
         Every tree on your farm, in your pocket. Your farm stays on this phone: no account, no server.
       </p>
 
       {needsHomeScreen && !inSafariAnyway && (
-        <section className="bg-white rounded-2xl p-5 shadow-sm mb-6">
+        <section className="bg-white rounded-2xl p-5 shadow-sm mb-6 lg:col-start-2 lg:row-start-1 lg:row-span-5 lg:self-center lg:p-8 lg:mb-0">
           <h2 className="font-semibold text-gray-900 mb-3">Add Arbor to your Home Screen first</h2>
           <ol className="space-y-2 text-sm text-gray-700 mb-4">
             <li className="flex items-center gap-2"><Share size={16} className="text-forest-600" />Tap the Share button.</li>
@@ -71,7 +71,7 @@ export default function Welcome() {
       )}
 
       {showStart && (
-        <div className="space-y-3">
+        <div className="space-y-3 lg:col-start-2 lg:row-start-1 lg:row-span-5 lg:self-center">
           {canInstall && (
             <button onClick={() => { void promptInstall() }} className="w-full border border-forest-600 text-forest-700 font-semibold py-3 rounded-xl">
               Install app

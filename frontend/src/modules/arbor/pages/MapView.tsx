@@ -39,8 +39,8 @@ export default function MapView() {
   const band = selected ? healthBand(selected.health_score) : null
 
   return (
-    <div className="flex flex-col" style={{ height: 'calc(100dvh - 5rem)' }}>
-      <div className="px-4 pt-12 pb-3 bg-white border-b border-brand-night/10">
+    <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:grid-rows-[auto_minmax(0,1fr)] lg:!h-full lg:bg-white" style={{ height: 'calc(100dvh - 5rem)' }}>
+      <div className="px-4 pt-12 pb-3 bg-white border-b border-brand-night/10 lg:col-start-2 lg:row-start-1 lg:px-6 lg:pt-6 lg:pb-5">
         <h1 className="text-xl font-bold text-brand-night">Land Map</h1>
         <p className="text-xs text-brand-muted">
           {plotted.length} trees plotted{unplotted > 0 ? ` · ${unplotted} without coordinates` : ''}
@@ -58,21 +58,21 @@ export default function MapView() {
       </div>
 
       {legend.length > 0 && (
-        <div className="flex gap-3 px-4 py-2 bg-white border-b border-brand-night/10 overflow-x-auto">
+        <div className="flex gap-3 px-4 py-2 bg-white border-b border-brand-night/10 overflow-x-auto lg:col-start-2 lg:row-start-2 lg:flex-col lg:gap-2.5 lg:px-6 lg:py-5 lg:border-b-0 lg:min-h-0 lg:overflow-x-hidden lg:overflow-y-auto">
           {legend.map(l => (
             <div key={l.key} className="flex items-center gap-1.5 flex-shrink-0">
               <div className="w-2.5 h-2.5 rounded-full border border-brand-night/40" style={{ background: l.color }} />
-              <span className="text-xs text-brand-night">{l.label}</span>
-              <span className="text-xs text-brand-muted">{l.count}</span>
+              <span className="text-xs text-brand-night lg:text-sm lg:min-w-0 lg:truncate">{l.label}</span>
+              <span className="text-xs text-brand-muted lg:text-sm lg:ml-auto lg:pl-2">{l.count}</span>
             </div>
           ))}
         </div>
       )}
 
-      <div className="flex-1 min-h-0 relative">
+      <div className="flex-1 min-h-0 relative lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:border-r lg:border-brand-night/10">
         <LandMap trees={trees} zones={zones} mode={mode} selectedId={selected?.id} onSelect={setSelected} />
         {selected && (
-          <div className="absolute bottom-4 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 border border-brand-night/10">
+          <div className="absolute bottom-4 left-4 right-4 bg-white rounded-2xl shadow-xl p-4 border border-brand-night/10 lg:bottom-6 lg:left-6 lg:right-auto lg:w-96">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-xs font-mono text-brand-muted">{selected.tree_code}</p>

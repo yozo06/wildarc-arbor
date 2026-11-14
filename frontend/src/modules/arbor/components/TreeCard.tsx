@@ -14,7 +14,7 @@ export default function TreeCard({ tree }: { tree: Tree }) {
   const name = tree.custom_common_name || (tree.species as any)?.common_name || 'Unknown'
   const score = tree.health_score
   return (
-    <div className="bg-white rounded-[14px] p-4 border border-brand-night/8 active:scale-95 transition-transform cursor-pointer"
+    <div className="bg-white rounded-[14px] p-4 border border-brand-night/8 active:scale-95 transition-transform cursor-pointer lg:hover:border-brand-night/20 lg:hover:shadow-sm"
       onClick={() => nav(`/trees/${tree.tree_code}`)}>
 
       {/* ── Top row: code + action badge ── */}

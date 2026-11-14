@@ -34,7 +34,7 @@ export default function Signup() {
     return (
         <div className="min-h-screen bg-forest-50 flex flex-col justify-center px-6 relative overflow-hidden">
             <div className="absolute top-[-10%] left-[-20%] w-[140%] h-[50%] bg-forest-600 rounded-b-[100%] z-0" />
-            <div className="relative z-10 w-full max-w-sm mx-auto">
+            <div className="relative z-10 w-full max-w-sm mx-auto lg:max-w-md">
                 <div className="flex justify-center mb-8">
                     <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-xl rotate-3">
                         <TreePine size={40} className="text-forest-600" />

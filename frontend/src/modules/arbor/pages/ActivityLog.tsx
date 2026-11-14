@@ -24,19 +24,19 @@ export default function ActivityLog() {
     } finally { setSaving(false) }
   }
   return (
-    <div className="px-4 pt-12 pb-8">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl">
       <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500"><ArrowLeft size={16} /> Back</button>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-800">Activity — {code}</h1>
         <button onClick={() => setShowForm(f=>!f)} aria-label="Add activity" className="w-11 h-11 bg-forest-600 rounded-xl flex items-center justify-center text-white"><Plus size={18} /></button>
       </div>
       {showForm && (
-        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 space-y-3">
+        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 space-y-3 lg:p-6 lg:mb-6">
           <select value={action} onChange={e=>setAction(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300">
             {ACTIONS.map(a => <option key={a} value={a}>{a.replace(/_/g,' ')}</option>)}
           </select>
           <textarea value={notes} onChange={e=>setNotes(e.target.value)} className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none" rows={2} placeholder="Details…" />
-          <button onClick={submit} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60">{saving?'Logging…':'Log Activity'}</button>
+          <button onClick={submit} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60 lg:w-auto lg:px-8">{saving?'Logging…':'Log Activity'}</button>
         </div>
       )}
       <div className="space-y-2">

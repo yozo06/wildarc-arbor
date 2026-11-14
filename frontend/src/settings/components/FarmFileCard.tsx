@@ -58,7 +58,7 @@ export default function FarmFileCard() {
 
   const row = 'w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform'
   return (
-    <section aria-label="Your farm" className="space-y-3 mb-4">
+    <section aria-label="Your farm" className="space-y-3 mb-4 lg:col-start-2 lg:row-start-2">
       <div className="px-1">
         <h2 className="font-semibold text-gray-800">Your farm</h2>
         <p className="text-sm text-gray-500">{lastSavedAt ? `Last saved ${longDate(lastSavedAt)}` : 'Not saved yet'}</p>
