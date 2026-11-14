@@ -42,7 +42,9 @@ Frontend, from `frontend/`:
 npm ci
 npx tsc --noEmit
 npx vitest run
-npm run build
+npm run build          # the phone version
+npm run dev            # the phone version, no server needed
+npm run dev:server     # the same screens against the API on port 3000
 ```
 
 CI runs exactly these checks (without `npm run dev`) on every pull request and push to `main`.
@@ -55,20 +57,38 @@ CI runs exactly these checks (without `npm run dev`) on every pull request and p
   - `src/modules/auth/`: sign-in, sign-up, users.
   - `src/modules/arbor/`: routes for trees, map, species, zones and dashboard, plus the zod schemas.
 - `frontend/`: a React, Vite, Tailwind and Zustand app that installs on a phone.
-  - `frontend/src/core/`: layout, sign-in pages, the auth store, shared constants.
-  - `frontend/src/modules/arbor/`: the Arbor pages, components and API calls.
-  - `frontend/src/settings/`: employees and profile.
+  - `frontend/src/core/`: layout, sign-in and welcome pages, the auth store, shared constants.
+  - `frontend/src/core/data/`: `mode.ts` (`VITE_DATA_MODE`: `local` by default, `server` for the hosted
+    build) and `local/`, the phone version of every data function: IndexedDB store, trees and logs, photos,
+    the farm file, the sample farm.
+  - `frontend/src/core/phone/`: install, persistent storage, the save reminder, farm-change events.
+  - `frontend/src/core/pwa/manifest.ts`: the web app manifest. Icons come from `scripts/make-icons.mjs`.
+  - `frontend/src/modules/arbor/`: the Arbor pages and components. `api/` exports, for each function, the
+    local or the server version, picked at build time.
+  - `frontend/src/settings/`: profile, the "Your farm" card, and employees (server version only).
 - `docs/migrations/`: SQL files. Incomplete; see below.
 
 ## Things that will trip you up
 
+- **Two data modes, one set of screens.** `npm run dev` is the phone version: data in IndexedDB (database
+  `arbor`), no sign-in, no team. Local functions must return exactly the shapes the server returns
+  (`docs/superpowers/plans/2026-11-13-arbor-phone-first.md`, Appendix A) so screens never need to know.
+- **The farm file is forever.** `farm.json` carries `format: "arbor-farm"` and `version: 1`. Every later
+  Arbor must still open version 1; add a version, never change the meaning of an old one.
+- **jsdom cannot read or copy a `Blob`.** Photos are stored as bytes with their type, and the canvas work that
+  shrinks them is swapped out in tests (`setImageShrinker`). Check photo changes in a real browser.
+- **The sample farm is generated.** Edit `frontend/scripts/make-sample-farm.mjs` and run it; never hand-edit
+  `sample-farm.json`. It must stay made up.
+
 - **Legacy duplicates.** `frontend/src/pages/`, `frontend/src/components/`, `frontend/src/store/` and
   `frontend/src/api/` are older copies that no route uses. Edit the versions under `core/`, `modules/` and
   `settings/`. Stage 0 deletes the old folders.
-- **The database cannot be rebuilt from this repository.** The base tables were made by hand in Supabase
-  Studio. The code reads `map_tree_view` and `ecosystem_roles`, which no migration creates, and migrations
-  004, 006 and 007 are absent. Stage 0 starts with a dump of the live project. Until that lands, do not
-  assume a column or a view exists because a migration file mentions it.
+- **The server database is a reconstruction.** The live tables were made by hand in Supabase Studio and never
+  written down. `supabase/migrations/20261113000000_baseline.sql` rebuilds them from what the API reads and
+  writes; `docs/migrations/` holds the older, incomplete files. If the live project is ever dumped, compare
+  and keep the dump. Change the schema with a new migration file, never by editing the baseline, and regenerate
+  the seed with `node scripts/make-seed.mjs`. `tests/backend/supabase-baseline.test.ts` loads both into an
+  in-memory Postgres.
 - **The backend talks to Supabase with the service key.** Row-level rules in the database do not protect
   anything by themselves. Every route has to check who is asking, and for which farm.
 - **Supabase returns at most 1000 rows per request.** A list read without paging goes short silently. Ask

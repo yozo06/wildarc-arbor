@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { changePassword } from '../../core/api/auth'
 import { updateUser } from '../api/users'
+import { isLocal } from '../../core/data/mode'
+import FarmFileCard from '../components/FarmFileCard'
 import { useAuthStore } from '../../core/store/auth.store'
 import toast from 'react-hot-toast'
 import { LogOut, Lock, Edit2, Check } from 'lucide-react'
@@ -47,6 +49,7 @@ export default function Profile() {
         <p className="text-sm text-gray-400 mb-2">{user?.email}</p>
         <span className={`text-xs px-3 py-1 rounded-full capitalize ${ROLE_COLOR[user?.role || 'employee']}`}>{user?.role}</span>
       </div>
+      {isLocal() && <FarmFileCard />}
       <div className="space-y-3">
         <button onClick={() => setShowEdit(f => !f)} className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform">
           <Edit2 size={18} className="text-gray-400" /><span className="font-medium text-gray-700">Edit Profile</span>
@@ -70,19 +73,22 @@ export default function Profile() {
             </button>
           </div>
         )}
-        <button onClick={() => setShowPw(f => !f)} className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform">
-          <Lock size={18} className="text-gray-400" /><span className="font-medium text-gray-700">Change Password</span>
-        </button>
-        {showPw && (
-          <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
-            <input type="password" value={curr} onChange={e => setCurr(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" placeholder="Current password" />
-            <input type="password" value={next} onChange={e => setNext(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" placeholder="New password" />
-            <button onClick={submitPw} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60">{saving ? 'Saving…' : 'Update Password'}</button>
-          </div>
-        )}
-        <button onClick={doLogout} className="w-full bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 text-red-600 font-medium active:scale-95 transition-transform">
-          <LogOut size={18} />Sign Out
-        </button>
+        {/* The phone version has no password and nobody to sign out to. */}
+        {!isLocal() && (<>
+          <button onClick={() => setShowPw(f => !f)} className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform">
+            <Lock size={18} className="text-gray-400" /><span className="font-medium text-gray-700">Change Password</span>
+          </button>
+          {showPw && (
+            <div className="bg-white rounded-2xl p-4 shadow-sm space-y-3">
+              <input type="password" value={curr} onChange={e => setCurr(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" placeholder="Current password" />
+              <input type="password" value={next} onChange={e => setNext(e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" placeholder="New password" />
+              <button onClick={submitPw} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60">{saving ? 'Saving…' : 'Update Password'}</button>
+            </div>
+          )}
+          <button onClick={doLogout} className="w-full bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-3 text-red-600 font-medium active:scale-95 transition-transform">
+            <LogOut size={18} />Sign Out
+          </button>
+        </>)}
       </div>
     </div>
   )

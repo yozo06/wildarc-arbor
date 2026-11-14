@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, TreePine, Map, Users, User } from 'lucide-react'
 import { useAuthStore } from '../store/auth.store'
+import { isLocal } from '../data/mode'
 
 export default function BottomNav() {
   const { isOwner } = useAuthStore()
@@ -11,7 +12,7 @@ export default function BottomNav() {
       <NavLink to="/home" className={cls}><LayoutDashboard size={22} /><span>Home</span></NavLink>
       <NavLink to="/trees" className={cls}><TreePine size={22} /><span>Trees</span></NavLink>
       {isOwner() && <NavLink to="/map" className={cls}><Map size={22} /><span>Map</span></NavLink>}
-      {isOwner() && <NavLink to="/employees" className={cls}><Users size={22} /><span>Team</span></NavLink>}
+      {isOwner() && !isLocal() && <NavLink to="/employees" className={cls}><Users size={22} /><span>Team</span></NavLink>}
       <NavLink to="/profile" className={cls}><User size={22} /><span>Me</span></NavLink>
     </nav>
   )

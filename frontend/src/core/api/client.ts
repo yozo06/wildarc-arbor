@@ -23,7 +23,7 @@ client.interceptors.response.use(r => r, async err => {
         return client(orig)
       } catch {
         localStorage.clear()
-        window.location.href = '/login'
+        window.location.href = `${import.meta.env.BASE_URL}login`
       }
     }
   }

@@ -50,7 +50,7 @@ export default function TreeDetail() {
 
   const name = tree.custom_common_name || tree.species?.common_name || 'Unknown Tree'
   const isMyTree = tree.assigned_to === user?.id || isOwner()
-  const coverImage = photos.length > 0 ? photos[0].url : tree.species?.image_url || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=600'
+  const coverImage = photos.length > 0 ? photos[0].photo_url : tree.species?.image_url || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=600'
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
@@ -132,9 +132,9 @@ export default function TreeDetail() {
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex flex-col justify-center items-center text-center">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors border border-gray-100/50 bg-gray-50">
-              <Activity size={24} className={tree.health_score < 40 ? 'text-red-500' : tree.health_score < 70 ? 'text-amber-500' : 'text-forest-500'} />
+              <Activity size={24} className={tree.health_score < 4 ? 'text-red-500' : tree.health_score < 7 ? 'text-amber-500' : 'text-forest-500'} />
             </div>
-            <p className="text-4xl font-display font-bold text-gray-900 tracking-tight mb-0.5">{tree.health_score}<span className="text-2xl text-gray-300 font-medium">%</span></p>
+            <p className="text-4xl font-display font-bold text-gray-900 tracking-tight mb-0.5">{tree.health_score}<span className="text-2xl text-gray-300 font-medium">/10</span></p>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Health Score</p>
           </div>
 
@@ -180,7 +180,7 @@ export default function TreeDetail() {
               {logs.slice(0, 5).map((log: any) => (
                 <div key={log.id} className="relative pl-7">
                   <div className="absolute -left-[11px] top-1 w-[20px] h-[20px] rounded-full bg-forest-500 border-[5px] border-white shadow-[0_0_0_1px_rgba(34,197,94,0.2)]" />
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{new Date(log.created_at).toLocaleDateString()}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{new Date(log.logged_at).toLocaleDateString()}</p>
                   <p className="font-display font-bold text-gray-900 text-[15px] capitalize tracking-tight">{log.action_taken.replace('_', ' ')}</p>
                   {log.notes && <p className="text-[13px] font-medium text-gray-600 mt-2 bg-gray-50 p-3.5 rounded-2xl border border-gray-100 leading-relaxed shadow-inner">"{log.notes}"</p>}
                 </div>
@@ -196,7 +196,7 @@ export default function TreeDetail() {
             <div className="grid grid-cols-2 gap-3">
               {photos.map(p => (
                 <div key={p.id} className="aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-sm border border-gray-100/50 bg-gray-100">
-                  <img src={p.url} alt={`Photo of ${name} taken on ${p.created_at ? new Date(p.created_at).toLocaleDateString() : 'unknown date'}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out cursor-pointer" />
+                  <img src={p.photo_url} alt={`Photo of ${name} taken on ${p.taken_at ? new Date(p.taken_at).toLocaleDateString() : 'unknown date'}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out cursor-pointer" />
                 </div>
               ))}
             </div>
