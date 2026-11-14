@@ -4,10 +4,11 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
 Arbor keeps track of every tree on a farm or food forest: where it stands, what it is, how healthy it is and
-the work it needs. It runs on a phone, from a link, with no account. The farm stays on the phone, and can be
-saved to a file at any time.
+the work it needs. It runs in a browser, on a phone or a computer, from a link, with no account. The farm
+stays on that device, and can be saved to a file at any time.
 
-**Try it:** open <https://yozo06.github.io/wildarc-arbor/> on a phone and tap **Look around the sample farm**.
+**Try it:** open <https://yozo06.github.io/wildarc-arbor/> on any phone or computer and choose
+**Look around the sample farm**.
 
 <table>
   <tr>
@@ -16,7 +17,12 @@ saved to a file at any time.
     <td><img src="docs/screenshots/tree.png" width="200" alt="One tree: health score, age, height and status"></td>
     <td><img src="docs/screenshots/map.png" width="200" alt="The Land Map: every tree plotted in its zone, coloured by the work it needs"></td>
   </tr>
+  <tr>
+    <td colspan="4"><img src="docs/screenshots/desktop-home.png" width="800" alt="Home on a computer: a sidebar on the left, with the tree counts, progress, urgent trees and zones across a wide page"></td>
+  </tr>
 </table>
+
+On a computer the same app uses a sidebar and wider pages.
 
 The screenshots show "Sample Food Forest", a made-up farm that ships with the app.
 
@@ -45,15 +51,16 @@ keeps the farm.
 - **Android (Chrome):** open the link and tap **Install app** (or the ⋮ menu, then **Install app**).
 - **iPhone (Safari):** open the link, tap **Share**, then **Add to Home Screen**, and open Arbor from the Home
   Screen. Do this before you add any trees: Safari and the Home Screen app keep separate data.
+- **Computer:** nothing to install, just use it in the browser. Chrome and Edge also offer **Install**.
 
 ## Your data
 
-- It stays on the phone, in the browser's storage. There is no account and nothing is sent anywhere.
+- It stays on the device, in the browser's storage. There is no account and nothing is sent anywhere.
 - **Save my farm** (on the Me page) writes one file, `arbor-farm-<date>.zip`, with every tree, entry and photo.
   Keep it somewhere safe. Arbor reminds you if a week passes without a save.
-- **Open a farm file** replaces the farm on the phone with the one in the file. It is also how you move a farm
-  to a new phone.
-- Clearing the browser's data for the site deletes the farm on that phone. The file is your backup.
+- **Open a farm file** replaces the farm on the device with the one in the file. It is also how you move a farm
+  to a new phone or computer.
+- Clearing the browser's data for the site deletes the farm on that device. The file is your backup.
 
 ## Run it on your computer
 

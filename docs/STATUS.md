@@ -16,6 +16,9 @@ This comes before the roadmap's Stage 0. The aim for the next version of Arbor:
   and people.
 - **Maybe later:** a few paid features.
 
+It is no longer phone-only: from 1024px wide the same app has a desktop layout, with a sidebar and wider
+pages (`feature/arbor-desktop-layout`). The data still stays on the device.
+
 The approved roadmap starts from the opposite place: one hosted server and one shared database, with
 sign-in and roles (Stages 0 to 2, decisions D7 and D8). So the first piece of work in this repository is a
 re-plan, not code. Design the phone-only version with the owner, then update the roadmap and this page in
