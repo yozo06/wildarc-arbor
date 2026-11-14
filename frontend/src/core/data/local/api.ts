@@ -24,7 +24,7 @@ function withToast<A extends unknown[], R>(fn: (...args: A) => Promise<R>, chang
   }
 }
 
-const NOT_ON_PHONE = 'Not available on the phone version'
+const NOT_ON_PHONE = 'Not available in this version'
 
 export const getPublicTree = withToast(farm.getPublicTree)
 export const getTrees = withToast(farm.getTrees)

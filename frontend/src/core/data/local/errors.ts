@@ -14,7 +14,7 @@ export function fail(status: number, message: string): never {
   throw new LocalDataError(status, message)
 }
 
-export const STORAGE_FULL = 'Phone storage is full. Save your farm to a file, then remove some photos.'
+export const STORAGE_FULL = 'Storage on this device is full. Save your farm to a file, then remove some photos.'
 
 export function isQuotaError(err: unknown): boolean {
   const e = err as { name?: string; code?: number } | null

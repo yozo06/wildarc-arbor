@@ -44,7 +44,7 @@ describe('createTree', () => {
       return base.put(s, v)
     } })
     expect(await errorOf(createTree({ tree_code: 'T-1' })))
-      .toBe('Phone storage is full. Save your farm to a file, then remove some photos.')
+      .toBe('Storage on this device is full. Save your farm to a file, then remove some photos.')
     expect(await base.all('trees')).toEqual([])
   })
 

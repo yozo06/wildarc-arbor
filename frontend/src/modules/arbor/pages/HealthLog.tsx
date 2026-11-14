@@ -25,7 +25,7 @@ export default function HealthLog() {
     } finally { setSaving(false) }
   }
   return (
-    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl lg:mx-auto">
       <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500"><ArrowLeft size={16} /> Back</button>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-800">Health Log — {code}</h1>

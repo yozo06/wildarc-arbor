@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { render, screen, within, cleanup } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import { createMemoryStore, resetStoreForTests } from '../data/local/store'
+import { useAuthStore } from '../store/auth.store'
 import { navItemsFor, isFullWidthPath } from './nav'
 import BottomNav from './BottomNav'
 import SideNav from './SideNav'
@@ -28,6 +29,11 @@ describe('nav destinations', () => {
 })
 
 describe('sidebar', () => {
+  const initial = useAuthStore.getState().user
+  const signInAs = (role: string) => useAuthStore.setState({ user: { id: 1, name: 'You', email: '', role } })
+  beforeEach(() => signInAs('owner'))
+  afterEach(() => { cleanup(); useAuthStore.setState({ user: initial }) })
+
   it('shows the app name and the same destinations as the bottom nav, both from the shared list', () => {
     render(<MemoryRouter initialEntries={['/trees']}><SideNav /><BottomNav /></MemoryRouter>)
     const side = screen.getByRole('navigation', { name: 'Sidebar' })
@@ -38,6 +44,16 @@ describe('sidebar', () => {
     expect(links(side)).toEqual(shared)
     expect(links(bottom)).toEqual(shared)
     expect(within(side).queryByRole('link', { name: 'Team' })).not.toBeInTheDocument()
+  })
+
+  it('lists only Home, Trees and Me in both navs for someone who is not an owner', () => {
+    signInAs('employee')
+    render(<MemoryRouter initialEntries={['/trees']}><SideNav /><BottomNav /></MemoryRouter>)
+    const expected = [['Home', '/home'], ['Trees', '/trees'], ['Me', '/profile']]
+
+    expect(links(screen.getByRole('navigation', { name: 'Sidebar' }))).toEqual(expected)
+    expect(links(screen.getByRole('navigation', { name: 'Tabs' }))).toEqual(expected)
+    expect(screen.queryByRole('link', { name: 'Map' })).not.toBeInTheDocument()
   })
 
   it('marks the current destination', () => {
@@ -63,7 +79,7 @@ describe('shell', () => {
     expect(screen.getByText('page body')).toBeInTheDocument()
   })
 
-  it('wraps a page in the centred desktop column, except on full-width paths', () => {
+  it('marks the content wrapper data-width="column" on ordinary paths and "full" on full-width paths', () => {
     expect(isFullWidthPath('/map')).toBe(true)
     expect(isFullWidthPath('/trees')).toBe(false)
 

@@ -50,7 +50,7 @@ export default function FarmFileCard() {
       notifyFarmChanged()
       toast.success('Farm opened')
     } catch {
-      toast.error('The farm could not be opened. Nothing on this phone was changed.')
+      toast.error('The farm could not be opened. Nothing on this device was changed.')
     } finally {
       setBusy(false)
     }
@@ -77,7 +77,7 @@ export default function FarmFileCard() {
           <p className="text-sm text-gray-800">
             {opened.summary.trees} trees, {opened.summary.photos} photos, saved {longDate(opened.summary.savedAt)}.
           </p>
-          <p className="text-sm text-gray-500">This replaces the farm on this phone.</p>
+          <p className="text-sm text-gray-500">This replaces the farm on this device.</p>
           <div className="flex gap-2">
             <button onClick={replace} disabled={busy} className="flex-1 bg-forest-600 text-white font-semibold py-2.5 rounded-xl disabled:opacity-60">Replace my farm</button>
             <button onClick={() => setOpened(null)} className="flex-1 bg-gray-100 text-gray-700 font-semibold py-2.5 rounded-xl">Cancel</button>

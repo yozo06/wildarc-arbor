@@ -3,7 +3,7 @@ import { createMemoryStore, resetStoreForTests, type LocalStore, type StoreName 
 import { createTree, updateTree } from './farm'
 import * as api from './api'
 
-const STORAGE_FULL = 'Phone storage is full. Save your farm to a file, then remove some photos.'
+const STORAGE_FULL = 'Storage on this device is full. Save your farm to a file, then remove some photos.'
 const errorOf = async (p: Promise<unknown>) => {
   try { await p } catch (e: any) { return e.response?.data?.error as string }
   throw new Error('expected a rejection')

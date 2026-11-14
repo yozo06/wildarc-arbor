@@ -39,7 +39,7 @@ export default function MapView() {
   const band = selected ? healthBand(selected.health_score) : null
 
   return (
-    <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:grid-rows-[auto_minmax(0,1fr)] lg:!h-full lg:bg-white" style={{ height: 'calc(100dvh - 5rem)' }}>
+    <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:grid-rows-[auto_minmax(0,1fr)] h-full lg:bg-white">
       <div className="px-4 pt-12 pb-3 bg-white border-b border-brand-night/10 lg:col-start-2 lg:row-start-1 lg:px-6 lg:pt-6 lg:pb-5">
         <h1 className="text-xl font-bold text-brand-night">Land Map</h1>
         <p className="text-xs text-brand-muted">

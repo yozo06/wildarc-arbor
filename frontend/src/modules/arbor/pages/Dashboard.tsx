@@ -70,10 +70,10 @@ export default function Dashboard() {
       </div>
 
       {/* Progress and urgent sit side by side at lg; the wrapper is a plain block below lg */}
-      <div className={urgent.length > 0 ? 'lg:grid lg:grid-cols-2 lg:gap-4 lg:items-start' : undefined}>
+      <div className={urgent.length > 0 ? 'lg:grid lg:grid-cols-2 lg:gap-4' : undefined}>
 
-      {/* Progress bar */}
-      <div className="lg:!mb-4" style={{ background: '#fff', borderRadius: 16, padding: 16, marginBottom: 14, border: '1px solid rgba(42,89,52,0.08)' }}>
+      {/* Progress bar; at lg it stretches to the urgent card's height with its content centred */}
+      <div className="lg:!mb-4 lg:flex lg:flex-col lg:justify-center" style={{ background: '#fff', borderRadius: 16, padding: 16, marginBottom: 14, border: '1px solid rgba(42,89,52,0.08)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: NGT }}>Overall Progress</span>
           <span style={{ fontSize: 13, fontWeight: 500, color: FM }}>{pct}%</span>

@@ -50,7 +50,7 @@ export default function Welcome() {
       </div>
       <h1 className="text-3xl font-bold text-gray-900 mb-2 lg:col-start-1 lg:row-start-3 lg:text-6xl lg:mb-5">Arbor</h1>
       <p className="text-gray-600 mb-8 lg:col-start-1 lg:row-start-4 lg:text-xl lg:leading-relaxed lg:mb-0">
-        Every tree on your farm, in your pocket. Your farm stays on this phone: no account, no server.
+        Every tree on your farm, in your pocket. Your farm stays on this device: no account, no server.
       </p>
 
       {needsHomeScreen && !inSafariAnyway && (

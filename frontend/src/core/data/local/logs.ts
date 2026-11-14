@@ -75,5 +75,5 @@ export async function getContributors(_code?: string) {
 }
 
 export async function addContributor(_code?: string, _data?: unknown): Promise<never> {
-  return fail(400, 'Not available on the phone version')
+  return fail(400, 'Not available in this version')
 }

@@ -95,7 +95,7 @@ export default function TreeEdit() {
     if (loading) return <Spinner label="Loading tree…" />
 
     return (
-        <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl">
+        <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl lg:mx-auto">
             <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500">
                 <ArrowLeft size={16} /> Back
             </button>
@@ -108,7 +108,7 @@ export default function TreeEdit() {
                 </button>
             </div>
 
-            <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-5 lg:space-y-0 lg:items-end">
+            <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-5 lg:space-y-0 lg:items-start">
                 <div className="lg:col-span-2">
                     <Field label="Custom Name (overrides species name)" k="custom_common_name" form={form} onChange={set('custom_common_name')} placeholder="Leave blank to use species name" />
                 </div>

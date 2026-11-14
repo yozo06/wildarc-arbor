@@ -40,6 +40,7 @@ describe('Welcome', () => {
     expect(screen.getByRole('button', { name: 'Start my farm' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Look around the sample farm' })).toBeInTheDocument()
     expect(screen.queryByText(/Add Arbor to your Home Screen first/)).not.toBeInTheDocument()
+    expect(screen.getByText(/Your farm stays on this device: no account, no server\./)).toBeInTheDocument()
   })
 
   it('on iPhone leads with the Home Screen card before anything else', async () => {
