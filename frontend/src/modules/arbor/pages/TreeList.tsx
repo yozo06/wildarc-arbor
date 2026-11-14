@@ -40,10 +40,12 @@ export default function TreeList() {
   const activeFilterCount = [action !== 'all', status !== 'all', zone !== 'all'].filter(Boolean).length
 
   return (
-    <div className="px-4 pt-12 pb-4">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Trees</h1>
-        <div className="flex gap-2">
+    <div className="px-4 pt-12 pb-4 lg:px-0 lg:pt-0 lg:pb-0">
+      {/* At lg the title, search box and buttons share one row; below lg this wrapper is a plain block. */}
+      <div className="lg:flex lg:items-center lg:gap-4 lg:mb-4">
+      <div className="flex items-center justify-between mb-4 lg:contents">
+        <h1 className="text-2xl font-bold text-gray-800 lg:order-1">Trees</h1>
+        <div className="flex gap-2 lg:order-3">
           <button onClick={() => setShowFilters(f => !f)} aria-label="Toggle filters"
             className={`w-11 h-11 rounded-xl flex items-center justify-center border transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 ${showFilters ? 'bg-forest-600 border-forest-600 text-white' : 'border-gray-200 text-gray-500'}`}>
             <Filter size={16} />
@@ -56,12 +58,13 @@ export default function TreeList() {
           {isOwner() && <button onClick={() => nav('/trees/new')} aria-label="Add new tree" className="w-11 h-11 bg-forest-600 rounded-xl flex items-center justify-center text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2"><Plus size={18} /></button>}
         </div>
       </div>
-      <div className="relative mb-3">
+      <div className="relative mb-3 lg:mb-0 lg:order-2 lg:flex-1 lg:max-w-xl lg:ml-4 lg:mr-auto">
         <Search size={16} className="absolute left-3 top-3.5 text-gray-400" />
         <input value={search} onChange={e => setSearch(e.target.value)} className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" placeholder="Search by tree code…" />
       </div>
+      </div>
       {showFilters && (
-        <div className="bg-white rounded-2xl p-4 shadow-sm mb-3 space-y-4">
+        <div className="bg-white rounded-2xl p-4 shadow-sm mb-3 space-y-4 lg:space-y-0 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,2fr)] lg:gap-x-8 lg:gap-y-4 lg:p-5">
           <div>
             <p className="text-xs font-medium text-gray-500 mb-2">Zone</p>
             <select value={zone} onChange={e => setZone(e.target.value)}
@@ -84,14 +87,14 @@ export default function TreeList() {
           </div>
           {activeFilterCount > 0 && (
             <button onClick={() => { setAction('all'); setStatus('all'); setZone('all') }}
-              className="text-xs text-red-500 font-medium rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2">Clear all filters</button>
+              className="text-xs text-red-500 font-medium rounded lg:col-span-3 lg:justify-self-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2">Clear all filters</button>
           )}
         </div>
       )}
       <p className="text-xs text-gray-400 mb-3">{total} trees</p>
       {loading ? <Spinner /> : trees.length === 0
         ? <EmptyState icon="🌳" title="No trees found" sub="Try adjusting your filters" />
-        : <div className="space-y-2">{trees.map(t => <TreeCard key={t.id} tree={t} />)}</div>
+        : <div className="space-y-2 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-4 xl:grid-cols-3">{trees.map(t => <TreeCard key={t.id} tree={t} />)}</div>
       }
     </div>
   )

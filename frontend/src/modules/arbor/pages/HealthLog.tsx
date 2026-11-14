@@ -25,14 +25,14 @@ export default function HealthLog() {
     } finally { setSaving(false) }
   }
   return (
-    <div className="px-4 pt-12 pb-8">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl lg:mx-auto">
       <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500"><ArrowLeft size={16} /> Back</button>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-800">Health Log — {code}</h1>
         <button onClick={() => setShowForm(f=>!f)} aria-label="Add health observation" className="w-11 h-11 bg-forest-600 rounded-xl flex items-center justify-center text-white"><Plus size={18} /></button>
       </div>
       {showForm && (
-        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 space-y-3">
+        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 space-y-3 lg:p-6 lg:mb-6">
           <p className="font-semibold text-gray-700">New Observation</p>
           <div className="grid grid-cols-2 gap-3">
             <div><label className="text-xs text-gray-500">Health Score (1-10)</label><input type="number" min="1" max="10" value={form.health_score} onChange={set('health_score')} className="w-full mt-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300" /></div>
@@ -57,7 +57,7 @@ export default function HealthLog() {
             <label className="flex items-center gap-2 text-sm text-gray-600"><input type="checkbox" checked={form.disease_signs} onChange={set('disease_signs')} className="w-5 h-5 min-w-[20px]" />Disease signs</label>
           </div>
           <textarea value={form.additional_notes} onChange={set('additional_notes')} className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none" rows={2} placeholder="Additional notes…" />
-          <button onClick={submit} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60">{saving?'Saving…':'Save Observation'}</button>
+          <button onClick={submit} disabled={saving} className="w-full bg-forest-600 text-white font-semibold py-3 rounded-xl disabled:opacity-60 lg:w-auto lg:px-8">{saving?'Saving…':'Save Observation'}</button>
         </div>
       )}
       <div className="space-y-3">

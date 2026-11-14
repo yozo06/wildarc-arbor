@@ -38,7 +38,7 @@ export default function Dashboard() {
   const pct = Math.round((stats.completed / (stats.total || 1)) * 100)
 
   return (
-    <div style={{ padding: '52px 16px 16px', background: OFF, minHeight: '100%' }}>
+    <div className="lg:!p-0" style={{ padding: '52px 16px 16px', background: OFF, minHeight: '100%' }}>
 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
@@ -59,8 +59,8 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Stat cards 2x2 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+      {/* Stat cards 2x2; one row of four at lg */}
+      <div className="lg:!grid-cols-4 lg:!gap-4 lg:!mb-4" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
         {STAT_CARDS(stats).map(s => (
           <div key={s.label} style={{ background: s.bg, borderRadius: 16, padding: '16px 16px 14px' }}>
             <p style={{ fontSize: 30, fontWeight: 500, color: s.fg, lineHeight: 1 }}>{s.val}</p>
@@ -69,8 +69,11 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Progress bar */}
-      <div style={{ background: '#fff', borderRadius: 16, padding: 16, marginBottom: 14, border: '1px solid rgba(42,89,52,0.08)' }}>
+      {/* Progress and urgent sit side by side at lg; the wrapper is a plain block below lg */}
+      <div className={urgent.length > 0 ? 'lg:grid lg:grid-cols-2 lg:gap-4' : undefined}>
+
+      {/* Progress bar; at lg it stretches to the urgent card's height with its content centred */}
+      <div className="lg:!mb-4 lg:flex lg:flex-col lg:justify-center" style={{ background: '#fff', borderRadius: 16, padding: 16, marginBottom: 14, border: '1px solid rgba(42,89,52,0.08)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 13, fontWeight: 500, color: NGT }}>Overall Progress</span>
           <span style={{ fontSize: 13, fontWeight: 500, color: FM }}>{pct}%</span>
@@ -87,7 +90,7 @@ export default function Dashboard() {
 
       {/* Urgent items */}
       {urgent.length > 0 && (
-        <div style={{ background: '#FCEBEB', border: '1px solid rgba(226,75,74,0.15)', borderRadius: 16, padding: 16, marginBottom: 14 }}>
+        <div className="lg:!mb-4" style={{ background: '#FCEBEB', border: '1px solid rgba(226,75,74,0.15)', borderRadius: 16, padding: 16, marginBottom: 14 }}>
           <p style={{ fontSize: 11, fontWeight: 500, color: RED, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 4 }}>
             <AlertTriangle size={11} /> Urgent attention
           </p>
@@ -107,14 +110,17 @@ export default function Dashboard() {
         </div>
       )}
 
+      </div>
+
       {/* Zones breakdown */}
       {zones.length > 0 && (
         <div style={{ background: '#fff', borderRadius: 16, padding: 16, border: '1px solid rgba(42,89,52,0.08)' }}>
           <p style={{ fontSize: 11, fontWeight: 500, color: MUT, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>By Zone</p>
+          <div className="lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-x-8 lg:gap-y-5">
           {zones.map((z: any, i: number) => {
             const zp = Math.round((z.completed / (z.total_trees || 1)) * 100)
             return (
-              <div key={z.zone_code} style={{ paddingBottom: 12, marginBottom: 12, borderBottom: i < zones.length - 1 ? '1px solid rgba(28,43,31,0.06)' : 'none' }}>
+              <div key={z.zone_code} className="lg:!pb-0 lg:!mb-0 lg:!border-b-0" style={{ paddingBottom: 12, marginBottom: 12, borderBottom: i < zones.length - 1 ? '1px solid rgba(28,43,31,0.06)' : 'none' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                   <div>
                     <p style={{ fontSize: 13, fontWeight: 500, color: NGT }}>{z.zone_name}</p>
@@ -128,6 +134,7 @@ export default function Dashboard() {
               </div>
             )
           })}
+          </div>
         </div>
       )}
     </div>

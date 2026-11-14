@@ -41,16 +41,16 @@ export default function Profile() {
   const ROLE_COLOR: Record<string, string> = { owner: 'bg-forest-100 text-forest-700', employee: 'bg-blue-100 text-blue-700', volunteer: 'bg-purple-100 text-purple-700' }
 
   return (
-    <div className="px-4 pt-12 pb-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Profile</h1>
-      <div className="bg-white rounded-2xl p-6 shadow-sm mb-4 flex flex-col items-center text-center">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:grid lg:grid-cols-2 lg:grid-rows-[auto_auto_1fr] lg:gap-x-6 lg:items-start">
+      <h1 className="text-2xl font-bold text-gray-800 mb-6 lg:col-span-2 lg:row-start-1">Profile</h1>
+      <div className="bg-white rounded-2xl p-6 shadow-sm mb-4 flex flex-col items-center text-center lg:col-start-1 lg:row-start-2 lg:row-span-2 lg:mb-0 lg:py-10">
         <div className="w-16 h-16 rounded-full bg-forest-100 flex items-center justify-center text-forest-700 font-bold text-2xl mb-3">{user?.name[0]}</div>
         <h2 className="text-xl font-bold text-gray-800">{user?.name}</h2>
         <p className="text-sm text-gray-400 mb-2">{user?.email}</p>
         <span className={`text-xs px-3 py-1 rounded-full capitalize ${ROLE_COLOR[user?.role || 'employee']}`}>{user?.role}</span>
       </div>
       {isLocal() && <FarmFileCard />}
-      <div className="space-y-3">
+      <div className="space-y-3 lg:col-start-2 lg:row-start-3">
         <button onClick={() => setShowEdit(f => !f)} className="w-full bg-white rounded-2xl p-4 shadow-sm flex items-center gap-3 text-left active:scale-95 transition-transform">
           <Edit2 size={18} className="text-gray-400" /><span className="font-medium text-gray-700">Edit Profile</span>
         </button>

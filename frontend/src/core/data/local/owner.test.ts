@@ -34,7 +34,7 @@ describe('the phone owner', () => {
   })
 
   it('has no team on the phone', async () => {
-    expect((await errorOf(createUser({}))).error).toBe('Not available on the phone version')
-    expect((await errorOf(deactivateUser(1))).error).toBe('Not available on the phone version')
+    expect((await errorOf(createUser({}))).error).toBe('Not available in this version')
+    expect((await errorOf(deactivateUser(1))).error).toBe('Not available in this version')
   })
 })

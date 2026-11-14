@@ -45,7 +45,7 @@ export default function TreeDetail() {
     } finally { setUploading(false) }
   }
 
-  if (loading) return <div className="h-screen flex items-center justify-center bg-gray-50"><Spinner label="Loading Tree Details…" /></div>
+  if (loading) return <div className="h-screen flex items-center justify-center bg-gray-50 lg:h-[60vh] lg:bg-transparent"><Spinner label="Loading Tree Details…" /></div>
   if (!tree) return <div className="p-6 text-center text-gray-400">Tree not found</div>
 
   const name = tree.custom_common_name || tree.species?.common_name || 'Unknown Tree'
@@ -53,9 +53,13 @@ export default function TreeDetail() {
   const coverImage = photos.length > 0 ? photos[0].photo_url : tree.species?.image_url || 'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80&w=600'
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    // At lg: two columns. Left = cover, context strip, health tiles; right = one stack (instructions,
+    // progress, operations, timeline, photos). The 1fr last row soaks up the taller column's extra
+    // height, so both columns stack tightly. Below lg it is one column, and the order-* classes put
+    // the health tiles back between progress and operations.
+    <div className="min-h-screen bg-gray-50 pb-24 lg:min-h-0 lg:bg-transparent lg:pb-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:gap-y-6 lg:items-start">
       {/* Immersive Cover Header */}
-      <div className="relative h-72 w-full bg-forest-900">
+      <div className="relative h-72 w-full bg-forest-900 lg:col-start-1 lg:row-start-1 lg:h-80 lg:rounded-[2rem] lg:overflow-hidden">
         <img src={coverImage} alt={name} className="w-full h-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent" />
 
@@ -84,10 +88,10 @@ export default function TreeDetail() {
         </div>
       </div>
 
-      <div className="px-5 mt-6 space-y-6">
+      <div className="px-5 mt-6 flex flex-col gap-6 lg:contents">
 
         {/* Context Strip */}
-        <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex flex-wrap items-center gap-2.5 pb-2 lg:col-start-1 lg:row-start-2 lg:pb-0">
           <div className="bg-white px-3.5 py-2.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2 whitespace-nowrap">
             <StatusDot status={tree.status} />
             <span className="text-[13px] font-bold capitalize text-gray-700">{tree.status.replace('_', ' ')}</span>
@@ -101,9 +105,34 @@ export default function TreeDetail() {
           <PriorityBadge p={tree.priority} />
         </div>
 
+        {/* Health & Metrics Grid: left column at lg, between progress and operations below lg */}
+        <div className="order-2 grid grid-cols-2 gap-4 lg:col-start-1 lg:row-start-3 lg:gap-3 xl:gap-4">
+          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex flex-col justify-center items-center text-center">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors border border-gray-100/50 bg-gray-50">
+              <Activity size={24} className={tree.health_score < 4 ? 'text-red-500' : tree.health_score < 7 ? 'text-amber-500' : 'text-forest-500'} />
+            </div>
+            <p className="text-4xl font-display font-bold text-gray-900 tracking-tight mb-0.5">{tree.health_score}<span className="text-2xl text-gray-300 font-medium">/10</span></p>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Health Score</p>
+          </div>
+
+          <div className="grid grid-rows-2 gap-4 lg:gap-3 xl:gap-4">
+            <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex items-center gap-4 lg:px-3 lg:gap-3 xl:px-5 xl:gap-4">
+              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100/50"><Calendar size={18} className="text-gray-400" /></div>
+              <div><p className="font-display font-bold text-gray-900 text-lg">{tree.approx_age_yrs || '--'} y</p><p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Est. Age</p></div>
+            </div>
+            <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex items-center gap-4 lg:px-3 lg:gap-3 xl:px-5 xl:gap-4">
+              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100/50"><Ruler size={18} className="text-gray-400" /></div>
+              <div><p className="font-display font-bold text-gray-900 text-lg">{tree.height_m || '--'} m</p><p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Height</p></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right column at lg; below lg its children join the single column directly. */}
+        <div className="contents lg:block lg:space-y-6 lg:col-start-2 lg:row-start-1 lg:row-span-3">
+
         {/* Action / Instructions */}
         {tree.action_notes && (
-          <div className="bg-amber-50/80 border border-amber-200/60 rounded-[2rem] p-6 shadow-sm">
+          <div className="order-1 bg-amber-50/80 border border-amber-200/60 rounded-[2rem] p-6 shadow-sm">
             <p className="text-[10px] font-display font-bold text-amber-700/80 uppercase tracking-widest mb-2 line-clamp-1">Field Instructions</p>
             <p className="text-[15px] font-medium text-amber-900 leading-relaxed">{tree.action_notes}</p>
           </div>
@@ -111,7 +140,7 @@ export default function TreeDetail() {
 
         {/* Status Update Block */}
         {isMyTree && tree.status !== 'completed' && (
-          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30">
+          <div className="order-1 bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30">
             <p className="text-[11px] font-display font-bold text-gray-400 uppercase tracking-widest mb-4">Update Progress</p>
             <div className="grid grid-cols-2 gap-3 mb-4">
               {STATUSES.filter(s => s !== tree.status).map(s => (
@@ -128,31 +157,9 @@ export default function TreeDetail() {
           </div>
         )}
 
-        {/* Health & Metrics Grid */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex flex-col justify-center items-center text-center">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-colors border border-gray-100/50 bg-gray-50">
-              <Activity size={24} className={tree.health_score < 4 ? 'text-red-500' : tree.health_score < 7 ? 'text-amber-500' : 'text-forest-500'} />
-            </div>
-            <p className="text-4xl font-display font-bold text-gray-900 tracking-tight mb-0.5">{tree.health_score}<span className="text-2xl text-gray-300 font-medium">/10</span></p>
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Health Score</p>
-          </div>
-
-          <div className="grid grid-rows-2 gap-4">
-            <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex items-center gap-4">
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100/50"><Calendar size={18} className="text-gray-400" /></div>
-              <div><p className="font-display font-bold text-gray-900 text-lg">{tree.approx_age_yrs || '--'} y</p><p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Est. Age</p></div>
-            </div>
-            <div className="bg-white rounded-3xl p-5 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 flex items-center gap-4">
-              <div className="bg-gray-50 p-3 rounded-xl border border-gray-100/50"><Ruler size={18} className="text-gray-400" /></div>
-              <div><p className="font-display font-bold text-gray-900 text-lg">{tree.height_m || '--'} m</p><p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Height</p></div>
-            </div>
-          </div>
-        </div>
-
         {/* Action Controls */}
         {!isVolunteer() && (
-          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30">
+          <div className="order-3 bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30">
             <p className="text-[11px] font-display font-bold text-gray-400 uppercase tracking-widest mb-4">Tree Operations</p>
             <div className="grid grid-cols-2 gap-4">
               <button
@@ -174,7 +181,7 @@ export default function TreeDetail() {
 
         {/* Activity Timeline */}
         {logs.length > 0 && (
-          <div className="bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 overflow-hidden">
+          <div className="order-3 bg-white rounded-[2rem] p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)] border border-gray-100/30 overflow-hidden">
             <p className="text-[11px] font-display font-bold text-gray-400 uppercase tracking-widest mb-6">Activity Timeline</p>
             <div className="relative border-l-2 border-forest-100 ml-3.5 space-y-7">
               {logs.slice(0, 5).map((log: any) => (
@@ -191,9 +198,9 @@ export default function TreeDetail() {
 
         {/* Photo Gallery */}
         {photos.length > 0 && (
-          <div className="mb-8">
+          <div className="order-3 mb-8 lg:mb-0">
             <p className="text-[11px] px-1 font-display font-bold text-gray-400 uppercase tracking-widest mb-4">Captured Media</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
               {photos.map(p => (
                 <div key={p.id} className="aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-sm border border-gray-100/50 bg-gray-100">
                   <img src={p.photo_url} alt={`Photo of ${name} taken on ${p.taken_at ? new Date(p.taken_at).toLocaleDateString() : 'unknown date'}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out cursor-pointer" />
@@ -202,6 +209,8 @@ export default function TreeDetail() {
             </div>
           </div>
         )}
+
+        </div>
 
       </div>
     </div>

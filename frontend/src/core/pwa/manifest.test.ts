@@ -6,6 +6,9 @@ import { manifest } from './manifest'
 // them as text, which is enough to see the PNG signature; their sizes are fixed by scripts/make-icons.mjs.
 const icons = import.meta.glob<string>('../../../public/icons/*.png', { query: '?raw', import: 'default', eager: true })
 
+// The picture chat apps and social sites show when the link is shared.
+const shareCard = import.meta.glob<string>('../../../public/og.jpg', { query: '?raw', import: 'default', eager: true })
+
 describe('the web app manifest', () => {
   it('is called Arbor and works from a sub-path', () => {
     expect(manifest).toMatchObject({
@@ -29,5 +32,16 @@ describe('the web app manifest', () => {
   it('the page is titled Arbor, not TMS', () => {
     expect(html).toContain('<title>Arbor</title>')
     expect(html).not.toContain('TMS')
+  })
+
+  it('a shared link shows a title, a description and a large picture', () => {
+    const meta = (key: string) => html.match(new RegExp(`<meta (?:property|name)="${key}" content="([^"]*)"`))?.[1]
+    expect(meta('og:title')).toBe('Arbor')
+    expect(meta('og:description')).toBeTruthy()
+    expect(meta('description')).toBe(meta('og:description'))
+    expect(meta('twitter:card')).toBe('summary_large_image')
+    // Link previews need the full address: they do not resolve relative paths.
+    expect(meta('og:image')).toMatch(/^https:\/\/.+\/og\.jpg$/)
+    expect(Object.keys(shareCard), 'public/og.jpg is missing').toHaveLength(1)
   })
 })

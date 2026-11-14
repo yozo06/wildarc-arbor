@@ -47,15 +47,15 @@ export default function TreeAdd() {
   }
 
   return (
-    <div className="px-4 pt-12 pb-8">
+    <div className="px-4 pt-12 pb-8 lg:px-0 lg:pt-0 lg:pb-0 lg:max-w-3xl lg:mx-auto">
       <button onClick={() => nav(-1)} className="mb-4 flex items-center gap-1 text-gray-500"><ArrowLeft size={16} /> Back</button>
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Add New Tree</h1>
-      <div className="space-y-4">
+      <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-5 lg:space-y-0 lg:items-start">
         <Field label="Tree Code *" k="tree_code" form={form} onChange={set('tree_code')} placeholder="e.g. T-042" />
         <div>
-          <div className="flex justify-between items-center bg-transparent">
+          <div className="flex justify-between items-center bg-transparent lg:block">
             <label className="text-xs font-medium text-gray-500 uppercase">Species</label>
-            <button onClick={() => setShowSpeciesModal(true)} type="button" className="text-[11px] font-semibold text-forest-600 flex items-center gap-1 hover:text-forest-700 bg-transparent border-none cursor-pointer"><Plus size={12} /> New Species</button>
+            <button onClick={() => setShowSpeciesModal(true)} type="button" className="text-[11px] font-semibold text-forest-600 flex items-center gap-1 hover:text-forest-700 bg-transparent border-none cursor-pointer lg:float-right lg:mt-1"><Plus size={12} /> New Species</button>
           </div>
           <select value={form.species_id} onChange={set('species_id')} className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300">
             <option value="">Select species…</option>
@@ -63,9 +63,9 @@ export default function TreeAdd() {
           </select>
         </div>
         <div>
-          <div className="flex justify-between items-center bg-transparent">
+          <div className="flex justify-between items-center bg-transparent lg:block">
             <label className="text-xs font-medium text-gray-500 uppercase">Zone</label>
-            <button onClick={() => setShowZoneModal(true)} type="button" className="text-[11px] font-semibold text-forest-600 flex items-center gap-1 hover:text-forest-700 bg-transparent border-none cursor-pointer"><Plus size={12} /> New Zone</button>
+            <button onClick={() => setShowZoneModal(true)} type="button" className="text-[11px] font-semibold text-forest-600 flex items-center gap-1 hover:text-forest-700 bg-transparent border-none cursor-pointer lg:float-right lg:mt-1"><Plus size={12} /> New Zone</button>
           </div>
           <select value={form.zone_id} onChange={set('zone_id')} className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300">
             <option value="">Select zone…</option>
@@ -98,25 +98,25 @@ export default function TreeAdd() {
           <Field label="Age (yrs)" k="approx_age_yrs" type="number" form={form} onChange={set('approx_age_yrs')} />
           <Field label="Height (m)" k="height_m" type="number" step="0.1" form={form} onChange={set('height_m')} />
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Location Coordinates</label>
           <MapPicker
             trees={allTrees}
             value={form.coord_x ? { x: Number(form.coord_x), y: Number(form.coord_y) } : undefined}
             onChange={(x: any, y: any) => setForm(f => ({ ...f, coord_x: x.toString(), coord_y: y.toString() }))}
           />
-          <div className="grid grid-cols-2 gap-3 mt-2">
+          <div className="grid grid-cols-2 gap-3 mt-2 lg:gap-6">
             <Field label="X Coord (m)" k="coord_x" type="number" step="0.001" form={form} onChange={set('coord_x')} />
             <Field label="Y Coord (m)" k="coord_y" type="number" step="0.001" form={form} onChange={set('coord_y')} />
           </div>
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase">Action Notes (for employees)</label>
           <textarea value={form.action_notes} onChange={set('action_notes')}
             className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
             rows={3} placeholder="e.g. Trim from the east side only…" />
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <label className="text-xs font-medium text-gray-500 uppercase">Public Notes (shown on QR scan)</label>
           <textarea value={form.public_notes} onChange={set('public_notes')}
             className="w-full mt-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-forest-300"
@@ -124,7 +124,7 @@ export default function TreeAdd() {
         </div>
         <Field label="Planting Date" k="planting_date" type="date" form={form} onChange={set('planting_date')} />
         <button onClick={submit} disabled={saving}
-          className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2">
+          className="w-full bg-forest-600 text-white font-semibold py-4 rounded-2xl active:scale-95 transition-transform disabled:opacity-60 mt-2 lg:col-span-2 lg:justify-self-start lg:w-auto lg:px-10 lg:py-3 lg:mt-0">
           {saving ? 'Saving…' : '🌱 Add Tree'}
         </button>
       </div>

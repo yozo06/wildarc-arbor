@@ -32,7 +32,7 @@ describe('FarmFileCard', () => {
     const file = new File(['zip'], 'arbor-farm-2026-11-03.zip', { type: 'application/zip' })
     fireEvent.change(screen.getByLabelText('Open a farm file'), { target: { files: [file] } })
     expect(await screen.findByText(/212 trees, 48 photos, saved/)).toBeInTheDocument()
-    expect(screen.getByText(/This replaces the farm on this phone/)).toBeInTheDocument()
+    expect(screen.getByText(/This replaces the farm on this device/)).toBeInTheDocument()
     expect(apply).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: 'Replace my farm' }))
     await waitFor(() => expect(apply).toHaveBeenCalled())

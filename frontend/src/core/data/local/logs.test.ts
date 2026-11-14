@@ -71,6 +71,6 @@ describe('work log', () => {
 describe('contributors', () => {
   it('are empty on the phone and cannot be added', async () => {
     expect(await getContributors('T-1')).toEqual([])
-    expect(await errorOf(addContributor('T-1', {}))).toBe('Not available on the phone version')
+    expect(await errorOf(addContributor('T-1', {}))).toBe('Not available in this version')
   })
 })

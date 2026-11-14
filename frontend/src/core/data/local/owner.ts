@@ -17,7 +17,7 @@ export interface LocalOwner {
   created_at: string
 }
 
-const NOT_ON_PHONE = 'Not available on the phone version'
+const NOT_ON_PHONE = 'Not available in this version'
 
 export async function getOwner(): Promise<LocalOwner> {
   const store = await getStore()

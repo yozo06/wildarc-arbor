@@ -65,7 +65,7 @@ export default function MapPicker({ trees, value, onChange }: {
     }
 
     return (
-        <div className="w-full h-64 bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden relative cursor-crosshair">
+        <div className="w-full h-64 lg:h-96 bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden relative cursor-crosshair">
             <canvas ref={ref} className="w-full h-full" onClick={handleClick} />
             <div className="absolute top-2 right-2 bg-white/80 backdrop-blur px-2 py-1 rounded text-[10px] text-gray-400 font-mono shadow-sm pointer-events-none">
                 Tap to set coordinates
