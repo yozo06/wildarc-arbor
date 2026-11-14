@@ -46,7 +46,7 @@ week; and seeing how diverse a planting really is. One grower can run the whole 
 phone — the server version adds sign-in so field workers log from their own phones while the owner
 keeps the farm.
 
-## Install it on your phone
+## Install it
 
 - **Android (Chrome):** open the link and tap **Install app** (or the ⋮ menu, then **Install app**).
 - **iPhone (Safari):** open the link, tap **Share**, then **Add to Home Screen**, and open Arbor from the Home
