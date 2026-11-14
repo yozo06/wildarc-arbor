@@ -22,7 +22,7 @@ export default function PhoneBanners() {
     nav('/home', { replace: true })
   }
 
-  const bar = 'mx-4 mt-4 rounded-xl px-4 py-3 text-sm flex items-center justify-between gap-3'
+  const bar = 'mx-4 mt-4 lg:mx-0 rounded-xl px-4 py-3 text-sm flex items-center justify-between gap-3'
   return (
     <>
       {farm.storage === 'memory' && (
